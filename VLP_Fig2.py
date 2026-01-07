@@ -21,11 +21,11 @@ def simulate_vlp_figure_2():
     # Tọa độ: (+/- 1.25, +/- 1.25, 3.0)
     offset = 1.25
     z_tx = 3.0
-    led_positions = [offset, offset, z_tx],    # LED 1 (Góc phần tư 1)
+    led_positions = ([offset, offset, z_tx],    # LED 1 (Góc phần tư 1)
         [-offset, offset, z_tx],   # LED 2 (Góc phần tư 2)
         [-offset, -offset, z_tx],  # LED 3 (Góc phần tư 3)
         [offset, -offset, z_tx]    # LED 4 (Góc phần tư 4)
-    ]
+    )
     
     # Công suất
     P_TOTAL = 2.0           # Tổng công suất hệ thống (Watts)
