@@ -172,7 +172,7 @@ def plot_learning_curve(model, train_rmse, val_rmse, test_rmse):
     for bar in bars:
         yval = bar.get_height()
         plt.text(bar.get_x() + bar.get_width()/2, yval + 0.2, f'{yval:.2f}', ha='center', va='bottom', fontweight='bold')
-    plt.show()
+    #plt.show()
 
 def plot_matlab_style_regression(y_train_true, y_train_pred, y_val_true, y_val_pred, y_test_true, y_test_pred):
     """2. MATLAB Style Regression (R-Value)"""
@@ -196,7 +196,7 @@ def plot_matlab_style_regression(y_train_true, y_train_pred, y_val_true, y_val_p
         ax.plot([min(t), max(t)], [min(t), max(t)], 'k--', alpha=0.5, label='Y = T')
         ax.set_title(f'{title}: R={R:.5f}', fontweight='bold')
         ax.set_xlabel('Target'); ax.set_ylabel('Output'); ax.legend(loc='upper left'); ax.grid(True, linestyle=':')
-    plt.tight_layout(); plt.show()
+    plt.tight_layout(); #plt.show()
 
 def plot_parameter_estimation(y_true, y_pred):
     """3. Đánh giá R và H (NEW ADDITION)"""
@@ -214,7 +214,7 @@ def plot_parameter_estimation(y_true, y_pred):
     plt.plot([1.2, 1.9], [1.2, 1.9], 'k--', lw=2, label='Ideal')
     rmse_h = np.sqrt(mean_squared_error(y_true[:,3], y_pred[:,3])) * 100
     plt.title(f'Ước lượng Chiều cao (H)\nRMSE: {rmse_h:.2f} cm'); plt.xlabel('Thực tế (m)'); plt.ylabel('Dự đoán (m)'); plt.grid(True)
-    plt.show()
+    #plt.show()
 
 def plot_cdf_error(y_true, y_pred):
     """4. CDF Plot"""
@@ -227,7 +227,7 @@ def plot_cdf_error(y_true, y_pred):
     plt.plot(errors_sorted * 100, p, linewidth=2)
     plt.axvline(x=p90*100, color='r', linestyle='--', label=f'90% < {p90*100:.1f} cm')
     plt.title('CDF - Phân bố lỗi vị trí (Test Set)')
-    plt.xlabel('Lỗi (cm)'); plt.ylabel('Xác suất'); plt.legend(); plt.grid(True); plt.show()
+    plt.xlabel('Lỗi (cm)'); plt.ylabel('Xác suất'); plt.legend(); plt.grid(True); #plt.show()
 
 def visualize_trajectory(sim, model, scaler_X, scaler_y):
     """5. Trajectory"""
@@ -249,9 +249,9 @@ def visualize_trajectory(sim, model, scaler_X, scaler_y):
         
     pred_path = np.array(pred_path)
     plt.figure(figsize=(6, 6))
-    plt.plot(path_x, path_y, 'g--', linewidth=2, label='Thực tế')
+    plt.plot(path_x, path_y, 'g-o', linewidth=2, label='Thực tế')
     plt.plot(pred_path[:, 0], pred_path[:, 1], 'b-o', markersize=4, label='Dự đoán')
-    plt.xlim(0, 5); plt.ylim(0, 5); plt.title('Tracking Trajectory'); plt.legend(); plt.grid(True); plt.show()
+    plt.xlim(0, 5); plt.ylim(0, 5); plt.title('Tracking Trajectory'); plt.legend(); plt.grid(True); #plt.show()
 
 def stress_test(sim, model, scaler_X, scaler_y):
     """6. Stress Test"""
@@ -275,7 +275,7 @@ def stress_test(sim, model, scaler_X, scaler_y):
         
     plt.figure(figsize=(7, 4))
     plt.plot([str(x) for x in noises], rmses, 'r-o', linewidth=2)
-    plt.title('Stress Test'); plt.ylabel('RMSE (cm)'); plt.grid(True); plt.show()
+    plt.title('Stress Test'); plt.ylabel('RMSE (cm)'); plt.grid(True); #plt.show()
 
 # ==============================================================================
 # 5. MAIN LOGIC
@@ -321,3 +321,4 @@ if __name__ == "__main__":
     sim = VLPSimulator(ROOM_DIM, GRID_SIZE)
     X_data, y_data = generate_training_data(sim, N_SAMPLES)
     train_and_evaluate(X_data, y_data, sim)
+    plt.show()
