@@ -321,4 +321,4 @@ if __name__ == "__main__":
     sim = VLPSimulator(ROOM_DIM, GRID_SIZE)
     X_data, y_data = generate_training_data(sim, N_SAMPLES)
     train_and_evaluate(X_data, y_data, sim)
-    plt.show()
+    # plt.show()
