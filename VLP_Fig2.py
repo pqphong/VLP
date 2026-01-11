@@ -3,123 +3,129 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 def simulate_vlp_figure_2():
-    # --- 1. THIẾT LẬP THAM SỐ (Dựa trên hình học bài báo) ---
-    # Kích thước phòng (L x W x H)
+    """
+    Simulates the optical power distribution for a VLP system.
+    Reproduces the geometry and parameters described in Figure 2 of the reference paper.
+    """
+    
+    # --- 1. GEOMETRIC PARAMETERS ---
+    # Room Dimensions (Length x Width x Height) in meters
     ROOM_L = 5.0
     ROOM_W = 5.0
     ROOM_H = 3.0
     
-    # Tạo lưới điểm đo (Receiver Grid) trên sàn (z=0)
-    grid_step = 0.1  # Độ phân giải 0.1m
+    # Receiver Grid initialization on the floor plane (z=0)
+    grid_step = 0.1  # Spatial resolution: 0.1m
     x = np.arange(-ROOM_L/2, ROOM_L/2 + grid_step, grid_step)
     y = np.arange(-ROOM_W/2, ROOM_W/2 + grid_step, grid_step)
     X, Y = np.meshgrid(x, y)
     Z_RX = 0.0
     
-    # --- 2. CẤU HÌNH ĐÈN LED (TRANSMITTERS) ---
-    # Vị trí: Trung điểm các đường chéo từ tâm đến góc phòng
-    # Tọa độ: (+/- 1.25, +/- 1.25, 3.0)
+    # --- 2. TRANSMITTER CONFIGURATION (LEDs) ---
+    # LED placement: Midpoints of diagonals in each quadrant
+    # Coordinates: (+/- 1.25, +/- 1.25, 3.0)
     offset = 1.25
     z_tx = 3.0
-    led_positions = ([offset, offset, z_tx],    # LED 1 (Góc phần tư 1)
-        [-offset, offset, z_tx],   # LED 2 (Góc phần tư 2)
-        [-offset, -offset, z_tx],  # LED 3 (Góc phần tư 3)
-        [offset, -offset, z_tx]    # LED 4 (Góc phần tư 4)
+    led_positions = (
+        [offset, offset, z_tx],    # LED 1 (Quadrant 1)
+        [-offset, offset, z_tx],   # LED 2 (Quadrant 2)
+        [-offset, -offset, z_tx],  # LED 3 (Quadrant 3)
+        [offset, -offset, z_tx]    # LED 4 (Quadrant 4)
     )
     
-    # Công suất
-    P_TOTAL = 2.0           # Tổng công suất hệ thống (Watts)
-    P_LED = P_TOTAL / 4.0   # 0.5 W mỗi đèn
+    # Optical Power Settings
+    P_TOTAL = 2.0           # Total system power (Watts)
+    P_LED = P_TOTAL / 4.0   # Power per LED (0.5 W)
     
-    # --- 3. THAM SỐ KÊNH QUANG HỌC ---
-    # Để tái tạo hình dạng 4 đỉnh của Hình 2, ta dùng m = 12.5
-    # (Nếu dùng m=1 theo bảng, hình sẽ ra dạng mái vòm đơn)
+    # --- 3. OPTICAL CHANNEL MODEL ---
+    # Lambertian order (m). m=12.5 is selected to replicate the specific beam profile
+    # observed in the reference figure (narrower beam than m=1).
     m_order = 12.5          
     
-    A_PD = 1e-4             # Diện tích PD (1 cm^2)
-    Ts = 1.0                # Độ lợi bộ lọc
-    n = 1.5                 # Chiết suất
-    FOV_deg = 60.0          # Góc nhìn (độ)
+    A_PD = 1e-4             # Photodetector active area (1 cm^2 = 1e-4 m^2)
+    Ts = 1.0                # Optical filter gain
+    n = 1.5                 # Refractive index of the lens
+    FOV_deg = 60.0          # Field of View (degrees)
     FOV_rad = np.deg2rad(FOV_deg)
-    rho = 0.8               # Hệ số phản xạ tường
+    rho = 0.8               # Wall reflection coefficient
     
-    # Độ lợi bộ tập trung quang (Concentrator Gain)
+    # Optical Concentrator Gain
+    # g = n^2 / sin^2(FOV)
     g_conc = (n**2) / (np.sin(FOV_rad)**2)
     
-    # Thành phần Phản xạ khuếch tán (Diffuse - Integrating Sphere)
-    # H_diff = (rho * A) / (A_room * (1 - rho))
+    # Diffuse Reflection Component (Integrating Sphere Model)
+    # Approximates the non-LoS contribution based on room surface area and reflection coefficient.
     area_room = 2 * (ROOM_L*ROOM_W + ROOM_L*ROOM_H + ROOM_W*ROOM_H)
     H_diffuse = (rho * A_PD) / (area_room * (1 - rho))
     
-    # --- 4. TÍNH TOÁN CÔNG SUẤT THU ---
-    # Khởi tạo ma trận công suất tổng (đơn vị Watt)
+    # --- 4. RECEIVED POWER COMPUTATION ---
+    # Initialize total power matrix
     P_total_watts = np.zeros_like(X)
     
-    # Duyệt qua từng đèn LED để cộng dồn công suất
+    # Superposition of power contributions from each LED
     for led in led_positions:
         lx, ly, lz = led
         
-        # Tính khoảng cách từ đèn đến từng điểm trên lưới
+        # Euclidean distance calculation
         dist_sq = (X - lx)**2 + (Y - ly)**2 + (Z_RX - lz)**2
         dist = np.sqrt(dist_sq)
         
-        # Tính Cosine góc phát (phi) và góc tới (psi)
-        # Giả sử đèn hướng thẳng xuống và sàn phẳng: phi = psi
+        # Geometry: Cosine of irradiance (phi) and incidence (psi) angles
+        # Assuming horizontal transmitter and receiver planes: phi = psi
         h = lz - Z_RX
         cos_phi = h / dist
         cos_psi = cos_phi
         
-        # Tính H_LoS (Line of Sight Channel Gain)
-        # Công thức: H = [(m+1)A / 2pi*d^2] * cos^m(phi) * Ts * g * cos(psi)
+        # Line-of-Sight (LoS) Channel Gain Calculation
+        # H_los = [(m+1)A / 2pi*d^2] * cos^m(phi) * Ts * g * cos(psi)
         H_los = ((m_order + 1) * A_PD) / (2 * np.pi * dist_sq) * \
                 (cos_phi ** m_order) * \
                 Ts * g_conc * cos_psi
         
-        # Kiểm tra điều kiện FOV (Field of View)
-        # Góc tới thực tế (psi_angle)
+        # Apply Field of View (FOV) constraints
+        # Received power is zero if the angle of incidence exceeds FOV
         psi_angle = np.arccos(np.clip(cos_psi, -1.0, 1.0))
-        # Tạo mặt nạ: điểm nào ngoài FOV thì Gain = 0
         mask_fov = psi_angle <= FOV_rad
         H_los = H_los * mask_fov
         
-        # Tổng hợp kênh: LoS + Diffuse
+        # Total Channel Gain: LoS + Diffuse
         H_total = H_los + H_diffuse
         
-        # Cộng công suất đèn hiện tại vào tổng
+        # Accumulate power
         P_total_watts += P_LED * H_total
 
-    # --- 5. CHUYỂN ĐỔI SANG dBm ---
+    # --- 5. SIGNAL PROCESSING (dBm CONVERSION) ---
     # P(dBm) = 10 * log10( P(W) / 1mW )
-    # Cộng thêm 1e-20 để tránh lỗi log(0) nếu có điểm chết
+    # A small epsilon (1e-20) is added to prevent logarithmic singularities.
     P_total_dBm = 10 * np.log10((P_total_watts + 1e-20) * 1000)
     
-    # --- 6. VẼ BIỂU ĐỒ 3D ---
+    # --- 6. VISUALIZATION ---
     fig = plt.figure(figsize=(12, 8))
     ax = fig.add_subplot(111, projection='3d')
     
-    # Vẽ bề mặt (Surface Plot)
+    # Surface Plot generation
     surf = ax.plot_surface(X, Y, P_total_dBm, cmap='jet', 
                            edgecolor='none', antialiased=True, alpha=0.9)
     
-    # Thiết lập trục và nhãn
-    ax.set_title(f'Mô phỏng Hình 2: Hồ sơ Công suất Thu (m={m_order})', fontsize=14)
+    # Axis labels and plot title
+    ax.set_title(f'Simulation Received Power Profile', fontsize=14)
     ax.set_xlabel('Width (m)')
     ax.set_ylabel('Length (m)')
     ax.set_zlabel('Received Power (dBm)')
     
-    # Giới hạn trục theo bài báo
+    # Axis limits aligned with the reference paper
     ax.set_xlim(-2.5, 2.5)
     ax.set_ylim(-2.5, 2.5)
     
-    # Tinh chỉnh giới hạn trục Z để hiển thị rõ hình dạng
+    # Z-axis adjustment for optimal visualization
     z_min = np.min(P_total_dBm)
     z_max = np.max(P_total_dBm)
     ax.set_zlim(z_min, z_max + 2)
     
-    # Thêm thanh màu (Colorbar)
+    # Colorbar configuration
     fig.colorbar(surf, ax=ax, shrink=0.6, aspect=12, label='Power (dBm)')
     
-    # Điều chỉnh góc nhìn (View angle) cho giống hình minh họa
+    # Viewpoint adjustment (Elevation, Azimuth)
     ax.view_init(elev=35, azim=45)
     
     plt.tight_layout()
