@@ -82,10 +82,10 @@ def apply_publication_style():
         "font.family": "serif",
         "font.serif": ["Times New Roman", "STIXGeneral", "DejaVu Serif"],
         "mathtext.fontset": "stix",
-        "font.size": 11,
-        "axes.titlesize": 12,
+        "font.size": 12,
+        "axes.titlesize": 14,
         "axes.titleweight": "bold",
-        "axes.labelsize": 11,
+        "axes.labelsize": 12,
         "axes.labelcolor": DARK_COLOR,
         "axes.edgecolor": DARK_COLOR,
         "axes.linewidth": 1.1,
@@ -99,8 +99,8 @@ def apply_publication_style():
         ]),
         "xtick.color": DARK_COLOR,
         "ytick.color": DARK_COLOR,
-        "xtick.labelsize": 10,
-        "ytick.labelsize": 10,
+        "xtick.labelsize": 11,
+        "ytick.labelsize": 11,
         "xtick.major.width": 1.0,
         "ytick.major.width": 1.0,
         "grid.color": LIGHT_NEUTRAL,
@@ -112,7 +112,7 @@ def apply_publication_style():
         "legend.fancybox": False,
         "legend.framealpha": 0.95,
         "legend.edgecolor": LIGHT_NEUTRAL,
-        "legend.fontsize": 10,
+        "legend.fontsize": 11,
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
         "svg.fonttype": "none",
@@ -146,6 +146,7 @@ def add_axis_legend_outside(ax, location="upper right", ncol=1):
         bbox_to_anchor=anchor,
         borderaxespad=0.0,
         ncol=ncol,
+        fontsize=11,
     )
 
 
@@ -160,6 +161,7 @@ def add_figure_legend(fig, handles, labels, location="top", ncol=2, x=0.5, y=0.9
             loc="upper center",
             bbox_to_anchor=(x, y),
             ncol=ncol,
+            fontsize=11,
         )
     elif location == "right":
         fig.legend(
@@ -168,6 +170,7 @@ def add_figure_legend(fig, handles, labels, location="top", ncol=2, x=0.5, y=0.9
             loc="center right",
             bbox_to_anchor=(x, 0.5),
             ncol=ncol,
+            fontsize=11,
         )
 
 
