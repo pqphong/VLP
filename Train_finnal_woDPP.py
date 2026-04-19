@@ -1242,4 +1242,4 @@ if __name__ == "__main__":
     visualize_generated_data_3d(sim, X_data, y_data, max_points=3000, sample_index=0)
     # Execute Main Protocol
     train_and_evaluate(X_data, y_data, sim)
-    plt.show()
+    # plt.show()
