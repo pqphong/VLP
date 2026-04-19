@@ -1,0 +1,41 @@
+diff --git a/Train_finnal_woDPP_final.py b/Train_finnal_woDPP_final.py
+--- a/Train_finnal_woDPP_final.py
++++ b/Train_finnal_woDPP_final.py
+@@
+ def apply_publication_style():
+     """Configures a consistent publication-ready Matplotlib style."""
+     plt.rcParams.update({
+         "figure.facecolor": "white",
+         "axes.facecolor": "white",
+         "savefig.facecolor": "white",
+         "savefig.bbox": "tight",
+         "font.family": "serif",
+         "font.serif": ["Times New Roman", "STIXGeneral", "DejaVu Serif"],
+         "mathtext.fontset": "stix",
+-        "font.size": 11,
+-        "axes.titlesize": 12,
++        "font.size": 12,
++        "axes.titlesize": 14,
+         "axes.titleweight": "bold",
+-        "axes.labelsize": 11,
++        "axes.labelsize": 12,
+         "axes.labelcolor": DARK_COLOR,
+         "axes.edgecolor": DARK_COLOR,
+         "axes.linewidth": 1.1,
+@@
+-        "xtick.labelsize": 10,
+-        "ytick.labelsize": 10,
++        "xtick.labelsize": 11,
++        "ytick.labelsize": 11,
+@@
+-        "legend.fontsize": 10,
++        "legend.fontsize": 11,
+         "pdf.fonttype": 42,
+         "ps.fonttype": 42,
+         "svg.fonttype": "none",
+     })
++
++# Recommended manual follow-up edits for smaller multi-panel figures:
++# - set figure legends with fontsize=11
++# - set colorbar labels with size=11 and ticks with labelsize=10
++# - set subplot titles fontsize=12 and axis labels fontsize=11 where needed
