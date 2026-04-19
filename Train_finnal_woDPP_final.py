@@ -51,7 +51,7 @@ DATASET_CACHE_DIR = "cached_datasets"
 FORCE_REGENERATE_DATASET = False
 DATASET_NOISE_STD = 1e-8
 MLP_HIDDEN_LAYERS = (512, 256, 128, 64)
-TARGET_TRAIN_RMSE_CM = 6.75
+TARGET_TEST_RMSE_CM = 6.75
 MAX_TRAINING_ATTEMPTS = 20
 BASE_RANDOM_STATE = 42
 
@@ -1178,21 +1178,25 @@ def build_mlp_model(random_state):
     )
 
 
-def train_until_target_rmse(
+def train_until_target_test_rmse(
     X_train_s,
     y_train_s,
     y_train,
     X_val_s,
     y_val,
+    X_test_s,
+    y_test,
     scaler_y,
-    target_rmse_cm=TARGET_TRAIN_RMSE_CM,
+    target_rmse_cm=TARGET_TEST_RMSE_CM,
     max_attempts=MAX_TRAINING_ATTEMPTS,
 ):
     best_model = None
     best_train_rmse = np.inf
     best_val_rmse = np.inf
+    best_test_rmse = np.inf
     best_y_train_pred = None
     best_y_val_pred = None
+    best_y_test_pred = None
 
     for attempt in range(1, max_attempts + 1):
         random_state = BASE_RANDOM_STATE + attempt - 1
@@ -1202,18 +1206,21 @@ def train_until_target_rmse(
 
         y_train_pred = scaler_y.inverse_transform(candidate_model.predict(X_train_s))
         y_val_pred = scaler_y.inverse_transform(candidate_model.predict(X_val_s))
+        y_test_pred = scaler_y.inverse_transform(candidate_model.predict(X_test_s))
         candidate_train_rmse = calc_rmse_cm(y_train[:, :2], y_train_pred[:, :2])
         candidate_val_rmse = calc_rmse_cm(y_val[:, :2], y_val_pred[:, :2])
+        candidate_test_rmse = calc_rmse_cm(y_test[:, :2], y_test_pred[:, :2])
 
         print(
             f"[Attempt {attempt}] Train RMSE = {candidate_train_rmse:.4f} cm | "
-            f"Val RMSE = {candidate_val_rmse:.4f} cm"
+            f"Val RMSE = {candidate_val_rmse:.4f} cm | "
+            f"Test RMSE = {candidate_test_rmse:.4f} cm"
         )
 
         is_better = (
-            candidate_train_rmse < best_train_rmse or
+            candidate_test_rmse < best_test_rmse or
             (
-                np.isclose(candidate_train_rmse, best_train_rmse) and
+                np.isclose(candidate_test_rmse, best_test_rmse) and
                 candidate_val_rmse < best_val_rmse
             )
         )
@@ -1221,21 +1228,41 @@ def train_until_target_rmse(
             best_model = candidate_model
             best_train_rmse = candidate_train_rmse
             best_val_rmse = candidate_val_rmse
+            best_test_rmse = candidate_test_rmse
             best_y_train_pred = y_train_pred
             best_y_val_pred = y_val_pred
+            best_y_test_pred = y_test_pred
 
-        if candidate_train_rmse <= target_rmse_cm:
+        if candidate_test_rmse <= target_rmse_cm:
             print(
-                f"[Stop Condition Met] Train RMSE = {candidate_train_rmse:.4f} cm "
+                f"[Stop Condition Met] Test RMSE = {candidate_test_rmse:.4f} cm "
                 f"<= {target_rmse_cm:.2f} cm"
             )
-            return candidate_model, y_train_pred, y_val_pred, candidate_train_rmse, candidate_val_rmse, attempt
+            return (
+                candidate_model,
+                y_train_pred,
+                y_val_pred,
+                y_test_pred,
+                candidate_train_rmse,
+                candidate_val_rmse,
+                candidate_test_rmse,
+                attempt,
+            )
 
     print(
-        f"[Warning] No run reached the target train RMSE <= {target_rmse_cm:.2f} cm "
+        f"[Warning] No run reached the target test RMSE <= {target_rmse_cm:.2f} cm "
         f"after {max_attempts} attempts. Using the best available model."
     )
-    return best_model, best_y_train_pred, best_y_val_pred, best_train_rmse, best_val_rmse, max_attempts
+    return (
+        best_model,
+        best_y_train_pred,
+        best_y_val_pred,
+        best_y_test_pred,
+        best_train_rmse,
+        best_val_rmse,
+        best_test_rmse,
+        max_attempts,
+    )
 
 
 def train_and_evaluate(X, y, sim):
@@ -1264,25 +1291,24 @@ def train_and_evaluate(X, y, sim):
 
     # --- PHASE A: DEEP LEARNING MODEL (HYPER-TUNED) ---
     print("\n[Phase A] Training Optimized Model...")
-    dl_model, y_tr_pred, y_va_pred, rmse_tr, rmse_va, attempts_used = train_until_target_rmse(
+    dl_model, y_tr_pred, y_va_pred, dl_pred, rmse_tr, rmse_va, dl_rmse, attempts_used = train_until_target_test_rmse(
         X_train_s=X_train_s,
         y_train_s=y_train_s,
         y_train=y_train,
         X_val_s=X_val_s,
         y_val=y_val,
+        X_test_s=X_test_s,
+        y_test=y_test,
         scaler_y=s_y,
     )
 
     # --- PHASE B: EVALUATION ---
-    dl_pred_s = dl_model.predict(X_test_s)
-    dl_pred = s_y.inverse_transform(dl_pred_s)
-
-    dl_rmse = calc_rmse_cm(y_test[:, :2], dl_pred[:, :2])
 
     print("\n>>> FINAL PERFORMANCE METRIC (RMSE):")
     print(f" Proposed model: {dl_rmse:.2f} cm")
-    print(f" Train RMSE used for stop condition: {rmse_tr:.2f} cm")
+    print(f" Train RMSE: {rmse_tr:.2f} cm")
     print(f" Validation RMSE: {rmse_va:.2f} cm")
+    print(f" Test RMSE used for stop condition: {dl_rmse:.2f} cm")
     print(f" Training attempts used: {attempts_used}")
 
     # --- VISUAL ANALYTICS ---
