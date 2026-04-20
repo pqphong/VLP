@@ -7,6 +7,21 @@ def simulate_vlp_figure_2():
     Simulates the optical power distribution for a VLP system.
     Reproduces the geometry and parameters described in Figure 2 of the reference paper.
     """
+
+    plt.rcParams.update({
+        "font.family": "serif",
+        "font.serif": ["Times New Roman", "STIXGeneral", "DejaVu Serif"],
+        "mathtext.fontset": "stix",
+        "font.size": 12,
+        "axes.titlesize": 14,
+        "axes.labelsize": 12,
+        "xtick.labelsize": 11,
+        "ytick.labelsize": 11,
+        "legend.fontsize": 11,
+        "pdf.fonttype": 42,
+        "ps.fonttype": 42,
+        "svg.fonttype": "none",
+    })
     
     # --- 1. GEOMETRIC PARAMETERS ---
     # Room Dimensions (Length x Width x Height) in meters
@@ -108,10 +123,12 @@ def simulate_vlp_figure_2():
                            edgecolor='none', antialiased=True, alpha=0.9)
     
     # Axis labels and plot title
-    ax.set_title(f'Simulation Received Power Profile', fontsize=14)
-    ax.set_xlabel('Width (m)')
-    ax.set_ylabel('Length (m)')
-    ax.set_zlabel('Received Power (dBm)')
+    ax.set_title('Simulation Received Power Profile', fontsize=14, fontweight='bold')
+    ax.set_xlabel('Width (m)', fontsize=12)
+    ax.set_ylabel('Length (m)', fontsize=12)
+    ax.set_zlabel('Received Power (dBm)', fontsize=12)
+    ax.tick_params(axis='both', which='major', labelsize=11)
+    ax.tick_params(axis='z', which='major', labelsize=11)
     
     # Axis limits aligned with the reference paper
     ax.set_xlim(-2.5, 2.5)
@@ -123,7 +140,9 @@ def simulate_vlp_figure_2():
     ax.set_zlim(z_min, z_max + 2)
     
     # Colorbar configuration
-    fig.colorbar(surf, ax=ax, shrink=0.6, aspect=12, label='Power (dBm)')
+    cbar = fig.colorbar(surf, ax=ax, shrink=0.6, aspect=12)
+    cbar.set_label('Power (dBm)', size=11)
+    cbar.ax.tick_params(labelsize=10)
     
     # Viewpoint adjustment (Elevation, Azimuth)
     ax.view_init(elev=35, azim=45)
