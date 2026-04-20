@@ -82,13 +82,13 @@ def apply_publication_style():
         "font.family": "serif",
         "font.serif": ["Times New Roman", "STIXGeneral", "DejaVu Serif"],
         "mathtext.fontset": "stix",
-        "font.size": 11,
-        "axes.titlesize": 12,
+        "font.size": 13,
+        "axes.titlesize": 15,
         "axes.titleweight": "bold",
-        "axes.labelsize": 11,
+        "axes.labelsize": 13,
         "axes.labelcolor": DARK_COLOR,
         "axes.edgecolor": DARK_COLOR,
-        "axes.linewidth": 1.0,
+        "axes.linewidth": 1.05,
         "axes.prop_cycle": plt.cycler(color=[
             PRIMARY_COLOR,
             SECONDARY_COLOR,
@@ -99,20 +99,20 @@ def apply_publication_style():
         ]),
         "xtick.color": DARK_COLOR,
         "ytick.color": DARK_COLOR,
-        "xtick.labelsize": 10,
-        "ytick.labelsize": 10,
-        "xtick.major.width": 0.9,
-        "ytick.major.width": 0.9,
+        "xtick.labelsize": 12,
+        "ytick.labelsize": 12,
+        "xtick.major.width": 0.95,
+        "ytick.major.width": 0.95,
         "grid.color": LIGHT_NEUTRAL,
         "grid.linestyle": ":",
         "grid.linewidth": 0.7,
-        "lines.linewidth": 2.0,
-        "lines.markersize": 5.0,
+        "lines.linewidth": 2.2,
+        "lines.markersize": 5.5,
         "legend.frameon": True,
         "legend.fancybox": False,
         "legend.framealpha": 0.95,
         "legend.edgecolor": LIGHT_NEUTRAL,
-        "legend.fontsize": 10,
+        "legend.fontsize": 12,
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
         "svg.fonttype": "none",
@@ -146,7 +146,7 @@ def add_axis_legend_outside(ax, location="upper right", ncol=1):
         bbox_to_anchor=anchor,
         borderaxespad=0.0,
         ncol=ncol,
-        fontsize=10,
+        fontsize=12,
     )
 
 
@@ -161,7 +161,7 @@ def add_figure_legend(fig, handles, labels, location="top", ncol=2, x=0.5, y=0.9
             loc="upper center",
             bbox_to_anchor=(x, y),
             ncol=ncol,
-            fontsize=10,
+            fontsize=12,
         )
     elif location == "right":
         fig.legend(
@@ -170,7 +170,7 @@ def add_figure_legend(fig, handles, labels, location="top", ncol=2, x=0.5, y=0.9
             loc="center right",
             bbox_to_anchor=(x, 0.5),
             ncol=ncol,
-            fontsize=10,
+            fontsize=12,
         )
 
 
@@ -333,25 +333,25 @@ def visualize_sensor_layout(sim):
     """Visualizes the spatial layout of the PD receiver grid and LEDs."""
     print("\n--- Visualizing PD and LED Layout... ---")
 
-    fig = plt.figure(figsize=(11.2, 4.6))
+    fig = plt.figure(figsize=(11.8, 5.1))
     grid = fig.add_gridspec(
         1,
         2,
-        width_ratios=[1.0, 0.92],
-        left=0.055,
+        width_ratios=[1.0, 0.94],
+        left=0.05,
         right=0.985,
         bottom=0.11,
-        top=0.83,
+        top=0.80,
         wspace=0.08,
     )
     ax_2d = fig.add_subplot(grid[0, 0])
     ax_3d = fig.add_subplot(grid[0, 1], projection='3d')
 
     draw_pd_layout_2d(ax_2d, sim, color=NEUTRAL_COLOR, alpha=0.55, size=14, label='PD receiver grid')
-    scatter_led_positions(ax_2d, LED_POSITIONS[:, :2], size=135, label='LED positions', zorder=4)
-    ax_2d.set_title('2D Sensor Layout', fontweight='bold', fontsize=12)
-    ax_2d.set_xlabel('X position (m)', fontsize=11)
-    ax_2d.set_ylabel('Y position (m)', fontsize=11)
+    scatter_led_positions(ax_2d, LED_POSITIONS[:, :2], size=145, label='LED positions', zorder=4)
+    ax_2d.set_title('2D Sensor Layout', fontweight='bold', fontsize=14)
+    ax_2d.set_xlabel('X position (m)', fontsize=13)
+    ax_2d.set_ylabel('Y position (m)', fontsize=13)
     ax_2d.set_xlim(0, sim.L)
     ax_2d.set_ylim(0, sim.W)
     ax_2d.set_aspect('equal', adjustable='box')
@@ -360,11 +360,11 @@ def visualize_sensor_layout(sim):
 
     draw_room_outline_3d(ax_3d, sim)
     draw_pd_layout_3d(ax_3d, sim, color=NEUTRAL_COLOR, alpha=0.35, size=10, label='PD receiver grid')
-    scatter_led_positions(ax_3d, LED_POSITIONS, size=145, label='LED positions', depthshade=False)
-    ax_3d.set_title('3D Sensor Layout', fontweight='bold', fontsize=12)
-    ax_3d.set_xlabel('X position (m)', fontsize=11)
-    ax_3d.set_ylabel('Y position (m)', fontsize=11)
-    ax_3d.set_zlabel('Z position (m)', fontsize=11)
+    scatter_led_positions(ax_3d, LED_POSITIONS, size=150, label='LED positions', depthshade=False)
+    ax_3d.set_title('3D Sensor Layout', fontweight='bold', fontsize=14)
+    ax_3d.set_xlabel('X position (m)', fontsize=13)
+    ax_3d.set_ylabel('Y position (m)', fontsize=13)
+    ax_3d.set_zlabel('Z position (m)', fontsize=13)
     ax_3d.set_xlim(0, sim.L)
     ax_3d.set_ylim(0, sim.W)
     ax_3d.set_zlim(0, sim.H)
@@ -377,13 +377,13 @@ def visualize_sensor_layout(sim):
         handles,
         labels,
         loc='upper center',
-        bbox_to_anchor=(0.5, 0.99),
+        bbox_to_anchor=(0.5, 1.01),
         ncol=2,
         frameon=True,
-        columnspacing=1.4,
+        columnspacing=1.5,
         handletextpad=0.6,
         borderaxespad=0.2,
-        fontsize=10,
+        fontsize=12,
     )
     save_figure(fig, "figure_01_sensor_layout.png")
 
@@ -398,7 +398,7 @@ def visualize_sample_geometry_3d(sim, y, sample_index=0):
     sample_index = int(np.clip(sample_index, 0, len(y) - 1))
     obj_x, obj_y, obj_r, obj_h = y[sample_index]
 
-    fig = plt.figure(figsize=(8.6, 7.4))
+    fig = plt.figure(figsize=(9.2, 8.1))
     ax = fig.add_subplot(1, 1, 1, projection='3d')
 
     draw_room_outline_3d(ax, sim)
@@ -414,21 +414,21 @@ def visualize_sample_geometry_3d(sim, y, sample_index=0):
         label='Object cylinder'
     )
 
-    scatter_led_positions(ax, LED_POSITIONS, size=145, label='LED positions', depthshade=False)
+    scatter_led_positions(ax, LED_POSITIONS, size=150, label='LED positions', depthshade=False)
     ax.scatter(
         [obj_x],
         [obj_y],
         [obj_h],
         marker='o',
-        s=60,
+        s=70,
         color=PRIMARY_COLOR,
         label='Object top center'
     )
 
-    ax.set_title('3D Room View of Example Object', fontweight='bold', fontsize=12)
-    ax.set_xlabel('X position (m)', fontsize=11)
-    ax.set_ylabel('Y position (m)', fontsize=11)
-    ax.set_zlabel('Z position (m)', fontsize=11)
+    ax.set_title('3D Room View of Example Object', fontweight='bold', fontsize=14)
+    ax.set_xlabel('X position (m)', fontsize=13)
+    ax.set_ylabel('Y position (m)', fontsize=13)
+    ax.set_zlabel('Z position (m)', fontsize=13)
     ax.set_xlim(0, sim.L)
     ax.set_ylim(0, sim.W)
     ax.set_zlim(0, sim.H)
@@ -440,10 +440,10 @@ def visualize_sample_geometry_3d(sim, y, sample_index=0):
         f'Example Sample #{sample_index} | x={obj_x:.2f} m, y={obj_y:.2f} m, '
         f'r={obj_r:.2f} m, h={obj_h:.2f} m',
         fontweight='bold',
-        y=0.975,
-        fontsize=11,
+        y=0.98,
+        fontsize=13,
     )
-    plt.tight_layout(rect=[0, 0, 1, 0.86], pad=0.5)
+    plt.tight_layout(rect=[0, 0, 1, 0.84], pad=0.7)
     save_figure(fig, "figure_02_sample_geometry_3d.png")
 
 def visualize_generated_data(sim, X, y, sample_index=0):
@@ -458,7 +458,7 @@ def visualize_generated_data(sim, X, y, sample_index=0):
     sensor_count = sim.n_sensors
     sample_index = int(np.clip(sample_index, 0, len(X) - 1))
 
-    fig, axs = plt.subplots(2, 2, figsize=(14.4, 10.4))
+    fig, axs = plt.subplots(2, 2, figsize=(15.2, 11.2))
 
     center_density = axs[0, 0].hexbin(
         y[:, 0],
@@ -469,27 +469,27 @@ def visualize_generated_data(sim, X, y, sample_index=0):
         mincnt=1
     )
     cbar_density = fig.colorbar(center_density, ax=axs[0, 0], label='Samples per bin', pad=0.02)
-    cbar_density.ax.tick_params(labelsize=9)
-    cbar_density.set_label('Samples per bin', size=10)
+    cbar_density.ax.tick_params(labelsize=11)
+    cbar_density.set_label('Samples per bin', size=12)
     draw_pd_layout_2d(axs[0, 0], sim, color=LIGHT_NEUTRAL, alpha=0.28, size=10, label='PD receiver grid')
-    scatter_led_positions(axs[0, 0], LED_POSITIONS[:, :2], size=120, label='LED positions', zorder=4)
-    axs[0, 0].set_title('Object Center Distribution with PD Grid', fontweight='bold', fontsize=11)
-    axs[0, 0].set_xlabel('X position (m)', fontsize=11)
-    axs[0, 0].set_ylabel('Y position (m)', fontsize=11)
+    scatter_led_positions(axs[0, 0], LED_POSITIONS[:, :2], size=128, label='LED positions', zorder=4)
+    axs[0, 0].set_title('Object Center Distribution with PD Grid', fontweight='bold', fontsize=13)
+    axs[0, 0].set_xlabel('X position (m)', fontsize=13)
+    axs[0, 0].set_ylabel('Y position (m)', fontsize=13)
     axs[0, 0].set_xlim(0, sim.L)
     axs[0, 0].set_ylim(0, sim.W)
     axs[0, 0].grid(True, linestyle=':', alpha=0.5)
 
     axs[0, 1].hist(y[:, 2] * 100, bins=30, color=PURPLE_COLOR, edgecolor=DARK_COLOR, alpha=0.85)
-    axs[0, 1].set_title('Radius Distribution', fontweight='bold', fontsize=11)
-    axs[0, 1].set_xlabel('Radius (cm)', fontsize=11)
-    axs[0, 1].set_ylabel('Frequency', fontsize=11)
+    axs[0, 1].set_title('Radius Distribution', fontweight='bold', fontsize=13)
+    axs[0, 1].set_xlabel('Radius (cm)', fontsize=13)
+    axs[0, 1].set_ylabel('Frequency', fontsize=13)
     axs[0, 1].grid(True, linestyle=':', alpha=0.5)
 
     axs[1, 0].hist(y[:, 3], bins=30, color=WARM_COLOR, edgecolor=DARK_COLOR, alpha=0.85)
-    axs[1, 0].set_title('Height Distribution', fontweight='bold', fontsize=11)
-    axs[1, 0].set_xlabel('Height (m)', fontsize=11)
-    axs[1, 0].set_ylabel('Frequency', fontsize=11)
+    axs[1, 0].set_title('Height Distribution', fontweight='bold', fontsize=13)
+    axs[1, 0].set_xlabel('Height (m)', fontsize=13)
+    axs[1, 0].set_ylabel('Frequency', fontsize=13)
     axs[1, 0].grid(True, linestyle=':', alpha=0.5)
 
     led_mean_rss = [
@@ -503,20 +503,20 @@ def visualize_generated_data(sim, X, y, sample_index=0):
         patch.set_linewidth(1.1)
     for median in boxplot['medians']:
         median.set_color(ACCENT_COLOR)
-        median.set_linewidth(1.5)
-    axs[1, 1].set_title('Mean RSS per LED Across Samples', fontweight='bold', fontsize=11)
-    axs[1, 1].set_ylabel('Mean RSS (dB)', fontsize=11)
+        median.set_linewidth(1.6)
+    axs[1, 1].set_title('Mean RSS per LED Across Samples', fontweight='bold', fontsize=13)
+    axs[1, 1].set_ylabel('Mean RSS (dB)', fontsize=13)
     axs[1, 1].grid(True, linestyle=':', alpha=0.5)
 
     handles, labels = axs[0, 0].get_legend_handles_labels()
-    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.975)
-    plt.tight_layout(rect=[0, 0, 1, 0.93], pad=0.6)
+    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.985)
+    plt.tight_layout(rect=[0, 0, 1, 0.935], pad=0.8)
     save_figure(fig, "figure_03_dataset_statistics.png")
 
     sample_maps = X[sample_index].reshape(n_leds, sim.X_grid.shape[0], sim.X_grid.shape[1])
     obj_x, obj_y, obj_r, obj_h = y[sample_index]
 
-    fig = plt.figure(figsize=(14.8, 10.8))
+    fig = plt.figure(figsize=(15.6, 11.8))
     axs = [fig.add_subplot(2, 2, idx + 1, projection='3d') for idx in range(n_leds)]
     for led_idx, ax in enumerate(axs):
         rss_map = sample_maps[led_idx]
@@ -550,42 +550,42 @@ def visualize_generated_data(sim, X, y, sample_index=0):
             obj_y,
             obj_rss + 1.5,
             marker='x',
-            s=80,
+            s=90,
             color=HIGHLIGHT_COLOR,
-            linewidths=1.9,
+            linewidths=2.0,
             label='Object center'
         )
         scatter_led_positions(
             ax,
             np.array([[LED_POSITIONS[led_idx, 0], LED_POSITIONS[led_idx, 1], led_rss + 1.5]]),
-            size=100,
+            size=110,
             facecolor=LIGHT_NEUTRAL,
             label='LED XY projection',
             depthshade=False,
         )
 
-        ax.set_title(f'LED {led_idx + 1} RSS Surface', fontweight='bold', fontsize=11)
-        ax.set_xlabel('X position (m)', fontsize=11)
-        ax.set_ylabel('Y position (m)', fontsize=11)
-        ax.set_zlabel('RSS (dB)', fontsize=11)
+        ax.set_title(f'LED {led_idx + 1} RSS Surface', fontweight='bold', fontsize=13)
+        ax.set_xlabel('X position (m)', fontsize=13)
+        ax.set_ylabel('Y position (m)', fontsize=13)
+        ax.set_zlabel('RSS (dB)', fontsize=13)
         ax.set_xlim(0, sim.L)
         ax.set_ylim(0, sim.W)
         ax.set_zlim(rss_map.min() - 2, rss_map.max() + 3)
         ax.view_init(elev=28, azim=-135)
-        cbar_surface = fig.colorbar(surface, ax=ax, fraction=0.046, pad=0.06, label='RSS (dB)')
-        cbar_surface.ax.tick_params(labelsize=9)
-        cbar_surface.set_label('RSS (dB)', size=10)
+        cbar_surface = fig.colorbar(surface, ax=ax, fraction=0.046, pad=0.065, label='RSS (dB)')
+        cbar_surface.ax.tick_params(labelsize=11)
+        cbar_surface.set_label('RSS (dB)', size=12)
 
     handles, labels = axs[0].get_legend_handles_labels()
-    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.935)
+    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.94)
     plt.suptitle(
         f'Example Generated Sample #{sample_index} | x={obj_x:.2f} m, y={obj_y:.2f} m, '
         f'r={obj_r:.2f} m, h={obj_h:.2f} m',
         fontweight='bold',
-        y=0.975,
-        fontsize=11,
+        y=0.98,
+        fontsize=13,
     )
-    plt.tight_layout(rect=[0, 0, 1, 0.87], pad=0.6)
+    plt.tight_layout(rect=[0, 0, 1, 0.87], pad=0.8)
     save_figure(fig, "figure_04_rss_surfaces_3d.png")
 
 
@@ -605,17 +605,17 @@ def plot_rss_heatmaps_2d(sim, X, y, sample_index=0):
     vmax = rss_maps.max()
     levels = np.linspace(vmin, vmax, 18)
 
-    fig = plt.figure(figsize=(10.8, 8.2))
+    fig = plt.figure(figsize=(11.4, 8.8))
     grid = fig.add_gridspec(
         2,
         3,
-        width_ratios=[1.0, 1.0, 0.05],
-        left=0.065,
+        width_ratios=[1.0, 1.0, 0.055],
+        left=0.06,
         right=0.965,
         bottom=0.08,
-        top=0.905,
-        wspace=0.18,
-        hspace=0.24,
+        top=0.89,
+        wspace=0.20,
+        hspace=0.26,
     )
     axs = [
         fig.add_subplot(grid[0, 0]),
@@ -641,29 +641,29 @@ def plot_rss_heatmaps_2d(sim, X, y, sample_index=0):
         scatter_led_positions(
             ax,
             LED_POSITIONS[:, :2],
-            size=46,
+            size=50,
             facecolor='none',
             edgecolor=NEUTRAL_COLOR,
-            linewidths=0.9,
+            linewidths=1.0,
             alpha=0.70,
         )
         scatter_led_positions(
             ax,
             LED_POSITIONS[[led_idx], :2],
-            size=88,
+            size=96,
             facecolor=ACCENT_COLOR,
             edgecolor='black',
-            linewidths=0.9,
+            linewidths=1.0,
             zorder=4,
         )
         ax.scatter(
             obj_x,
             obj_y,
             marker='o',
-            s=36,
+            s=40,
             color=HIGHLIGHT_COLOR,
             edgecolors='black',
-            linewidths=0.7,
+            linewidths=0.8,
             zorder=5
         )
         ax.add_patch(
@@ -672,13 +672,13 @@ def plot_rss_heatmaps_2d(sim, X, y, sample_index=0):
                 obj_r,
                 fill=False,
                 linestyle='--',
-                linewidth=1.4,
+                linewidth=1.5,
                 edgecolor=HIGHLIGHT_COLOR
             )
         )
-        ax.set_title(f'{panel_labels[led_idx]} LED {led_idx + 1}', fontweight='bold', fontsize=11)
-        ax.set_xlabel('X position (m)' if led_idx >= 2 else '', fontsize=11)
-        ax.set_ylabel('Y position (m)' if led_idx % 2 == 0 else '', fontsize=11)
+        ax.set_title(f'{panel_labels[led_idx]} LED {led_idx + 1}', fontweight='bold', fontsize=13)
+        ax.set_xlabel('X position (m)' if led_idx >= 2 else '', fontsize=13)
+        ax.set_ylabel('Y position (m)' if led_idx % 2 == 0 else '', fontsize=13)
         ax.set_xlim(0, sim.L)
         ax.set_ylim(0, sim.W)
         ax.set_aspect('equal', adjustable='box')
@@ -688,8 +688,8 @@ def plot_rss_heatmaps_2d(sim, X, y, sample_index=0):
         ax.grid(True, linestyle=':', alpha=0.35)
 
     cbar = fig.colorbar(contour, cax=cax)
-    cbar.set_label('RSS (dB)', size=10)
-    cbar.ax.tick_params(labelsize=9)
+    cbar.set_label('RSS (dB)', size=12)
+    cbar.ax.tick_params(labelsize=11)
 
     legend_handles = [
         Line2D(
@@ -697,7 +697,7 @@ def plot_rss_heatmaps_2d(sim, X, y, sample_index=0):
             [],
             marker='^',
             linestyle='None',
-            markersize=8,
+            markersize=9,
             markerfacecolor=ACCENT_COLOR,
             markeredgecolor='black',
             label='Active LED'
@@ -707,7 +707,7 @@ def plot_rss_heatmaps_2d(sim, X, y, sample_index=0):
             [],
             marker='o',
             linestyle='None',
-            markersize=5.5,
+            markersize=6,
             markerfacecolor=HIGHLIGHT_COLOR,
             markeredgecolor='black',
             label='Object center'
@@ -716,7 +716,7 @@ def plot_rss_heatmaps_2d(sim, X, y, sample_index=0):
             [],
             [],
             linestyle='--',
-            linewidth=1.4,
+            linewidth=1.5,
             color=HIGHLIGHT_COLOR,
             label='Object boundary'
         ),
@@ -725,13 +725,13 @@ def plot_rss_heatmaps_2d(sim, X, y, sample_index=0):
         legend_handles,
         [handle.get_label() for handle in legend_handles],
         loc='upper center',
-        bbox_to_anchor=(0.44, 0.99),
+        bbox_to_anchor=(0.44, 0.995),
         ncol=3,
         frameon=True,
         columnspacing=1.2,
         handletextpad=0.5,
         borderaxespad=0.2,
-        fontsize=10,
+        fontsize=12,
     )
     save_figure(fig, "figure_05_rss_heatmaps_2d.png")
 
@@ -753,16 +753,16 @@ def visualize_generated_data_3d(sim, X, y, max_points=3000, sample_index=0):
     y_subset = y[subset_idx]
     mean_rss_subset = X_subset.mean(axis=1)
 
-    fig = plt.figure(figsize=(13.6, 5.9))
+    fig = plt.figure(figsize=(14.4, 6.4))
     grid = fig.add_gridspec(
         1,
         4,
-        width_ratios=[1.0, 0.05, 1.0, 0.05],
-        left=0.03,
+        width_ratios=[1.0, 0.055, 1.0, 0.055],
+        left=0.025,
         right=0.985,
         bottom=0.08,
-        top=0.84,
-        wspace=0.12,
+        top=0.81,
+        wspace=0.14,
     )
     ax_radius = fig.add_subplot(grid[0, 0], projection='3d')
     cax_radius = fig.add_subplot(grid[0, 1])
@@ -775,25 +775,25 @@ def visualize_generated_data_3d(sim, X, y, max_points=3000, sample_index=0):
         y_subset[:, 3],
         c=y_subset[:, 2] * 100,
         cmap=CMAP_RADIUS,
-        s=8,
+        s=9,
         alpha=0.38,
         depthshade=False
     )
-    scatter_led_positions(ax_radius, LED_POSITIONS, size=115, label='LED positions', depthshade=False)
+    scatter_led_positions(ax_radius, LED_POSITIONS, size=120, label='LED positions', depthshade=False)
     draw_room_outline_3d(ax_radius, sim)
     draw_pd_layout_3d(ax_radius, sim, color=NEUTRAL_COLOR, alpha=0.12, size=7, label='PD receiver grid')
-    ax_radius.set_title('(a) Colored by radius', fontweight='bold', pad=4, fontsize=11)
-    ax_radius.set_xlabel('X position (m)', fontsize=11)
-    ax_radius.set_ylabel('Y position (m)', fontsize=11)
-    ax_radius.set_zlabel('Object height (m)', fontsize=11)
+    ax_radius.set_title('(a) Colored by radius', fontweight='bold', pad=4, fontsize=13)
+    ax_radius.set_xlabel('X position (m)', fontsize=13)
+    ax_radius.set_ylabel('Y position (m)', fontsize=13)
+    ax_radius.set_zlabel('Object height (m)', fontsize=13)
     ax_radius.set_xlim(0, sim.L)
     ax_radius.set_ylim(0, sim.W)
     ax_radius.set_zlim(0, sim.H)
     ax_radius.set_box_aspect((sim.L, sim.W, sim.H))
     ax_radius.view_init(elev=24, azim=-58)
     cbar_radius = fig.colorbar(radius_plot, cax=cax_radius, label='Radius (cm)')
-    cbar_radius.set_label('Radius (cm)', size=10)
-    cbar_radius.ax.tick_params(labelsize=9)
+    cbar_radius.set_label('Radius (cm)', size=12)
+    cbar_radius.ax.tick_params(labelsize=11)
 
     rss_plot = ax_rss.scatter(
         y_subset[:, 0],
@@ -801,25 +801,25 @@ def visualize_generated_data_3d(sim, X, y, max_points=3000, sample_index=0):
         y_subset[:, 3],
         c=mean_rss_subset,
         cmap=CMAP_SIGNAL,
-        s=8,
+        s=9,
         alpha=0.38,
         depthshade=False
     )
-    scatter_led_positions(ax_rss, LED_POSITIONS, size=115, depthshade=False)
+    scatter_led_positions(ax_rss, LED_POSITIONS, size=120, depthshade=False)
     draw_room_outline_3d(ax_rss, sim)
     draw_pd_layout_3d(ax_rss, sim, color=NEUTRAL_COLOR, alpha=0.12, size=7)
-    ax_rss.set_title('(b) Colored by mean RSS', fontweight='bold', pad=4, fontsize=11)
-    ax_rss.set_xlabel('X position (m)', fontsize=11)
-    ax_rss.set_ylabel('Y position (m)', fontsize=11)
-    ax_rss.set_zlabel('Object height (m)', fontsize=11)
+    ax_rss.set_title('(b) Colored by mean RSS', fontweight='bold', pad=4, fontsize=13)
+    ax_rss.set_xlabel('X position (m)', fontsize=13)
+    ax_rss.set_ylabel('Y position (m)', fontsize=13)
+    ax_rss.set_zlabel('Object height (m)', fontsize=13)
     ax_rss.set_xlim(0, sim.L)
     ax_rss.set_ylim(0, sim.W)
     ax_rss.set_zlim(0, sim.H)
     ax_rss.set_box_aspect((sim.L, sim.W, sim.H))
     ax_rss.view_init(elev=24, azim=-58)
     cbar_rss = fig.colorbar(rss_plot, cax=cax_rss, label='Mean RSS (dB)')
-    cbar_rss.set_label('Mean RSS (dB)', size=10)
-    cbar_rss.ax.tick_params(labelsize=9)
+    cbar_rss.set_label('Mean RSS (dB)', size=12)
+    cbar_rss.ax.tick_params(labelsize=11)
 
     legend_handles = [
         Line2D(
@@ -827,7 +827,7 @@ def visualize_generated_data_3d(sim, X, y, max_points=3000, sample_index=0):
             [],
             marker='^',
             linestyle='None',
-            markersize=8,
+            markersize=9,
             markerfacecolor=ACCENT_COLOR,
             markeredgecolor='black',
             label='LED positions'
@@ -837,7 +837,7 @@ def visualize_generated_data_3d(sim, X, y, max_points=3000, sample_index=0):
             [],
             marker='o',
             linestyle='None',
-            markersize=3.5,
+            markersize=4,
             markerfacecolor=NEUTRAL_COLOR,
             markeredgecolor=NEUTRAL_COLOR,
             alpha=0.22,
@@ -848,24 +848,24 @@ def visualize_generated_data_3d(sim, X, y, max_points=3000, sample_index=0):
         legend_handles,
         [handle.get_label() for handle in legend_handles],
         loc='upper center',
-        bbox_to_anchor=(0.5, 0.99),
+        bbox_to_anchor=(0.5, 1.00),
         ncol=2,
         frameon=True,
         columnspacing=1.4,
         handletextpad=0.5,
         borderaxespad=0.2,
-        fontsize=10,
+        fontsize=12,
     )
     save_figure(fig, "figure_06_dataset_3d_overview.png")
 
 def plot_learning_curve(model, train_rmse, val_rmse, test_rmse):
     """Visualizes training convergence and RMSE across data splits."""
-    fig = plt.figure(figsize=(14.6, 5.4))
+    fig = plt.figure(figsize=(15.2, 6.0))
     ax_loss = plt.subplot(1, 2, 1)
-    ax_loss.plot(model.loss_curve_, label='Training Loss', color=PRIMARY_COLOR, linewidth=2.0)
-    ax_loss.set_title('Training Loss Convergence (Optimized)', fontsize=12, fontweight='bold')
-    ax_loss.set_xlabel('Epochs', fontsize=11)
-    ax_loss.set_ylabel('Loss (MSE)', fontsize=11)
+    ax_loss.plot(model.loss_curve_, label='Training Loss', color=PRIMARY_COLOR, linewidth=2.2)
+    ax_loss.set_title('Training Loss Convergence (Optimized)', fontsize=14, fontweight='bold')
+    ax_loss.set_xlabel('Epochs', fontsize=13)
+    ax_loss.set_ylabel('Loss (MSE)', fontsize=13)
     ax_loss.grid(True, linestyle='--', alpha=0.7)
     add_axis_legend_outside(ax_loss, location="upper right")
 
@@ -873,11 +873,11 @@ def plot_learning_curve(model, train_rmse, val_rmse, test_rmse):
     sets = ['Train (80%)', 'Valid (10%)', 'Test (10%)']
     values = [train_rmse, val_rmse, test_rmse]
     bars = ax_rmse.bar(sets, values, color=[SECONDARY_COLOR, WARM_COLOR, ACCENT_COLOR], alpha=0.9)
-    ax_rmse.set_title('Performance Evaluation: RMSE Comparison', fontsize=12, fontweight='bold')
-    ax_rmse.set_ylabel('RMSE (cm)', fontsize=11)
+    ax_rmse.set_title('Performance Evaluation: RMSE Comparison', fontsize=14, fontweight='bold')
+    ax_rmse.set_ylabel('RMSE (cm)', fontsize=13)
     ax_rmse.set_ylim(0, max(values) * 1.14 + 0.15)
-    ax_rmse.bar_label(bars, fmt='%.2f', padding=3, fontweight='bold', fontsize=10)
-    plt.tight_layout(pad=0.7)
+    ax_rmse.bar_label(bars, fmt='%.2f', padding=4, fontweight='bold', fontsize=12)
+    plt.tight_layout(pad=0.9)
     save_figure(fig, "figure_07_learning_curve_rmse.png")
 
 def plot_matlab_style_regression(y_train_true, y_train_pred, y_val_true, y_val_pred, y_test_true, y_test_pred):
@@ -888,7 +888,7 @@ def plot_matlab_style_regression(y_train_true, y_train_pred, y_val_true, y_val_p
     datasets = [(y_train_true, y_train_pred, 'Training Set'), (y_val_true, y_val_pred, 'Validation Set'),
                 (y_test_true, y_test_pred, 'Test Set'), (y_all_true, y_all_pred, 'Overall Dataset')]
 
-    fig, axs = plt.subplots(2, 2, figsize=(12.4, 10.4))
+    fig, axs = plt.subplots(2, 2, figsize=(13.0, 10.8))
     axs = axs.ravel()
     for i, (true, pred, title) in enumerate(datasets):
         ax = axs[i]
@@ -896,37 +896,37 @@ def plot_matlab_style_regression(y_train_true, y_train_pred, y_val_true, y_val_p
         R = np.corrcoef(t, o)[0, 1] if len(t) > 1 else 0
         slope, intercept = np.polyfit(t, o, 1) if len(t) > 1 else (1, 0)
 
-        ax.scatter(t, o, facecolors='none', edgecolors=PRIMARY_COLOR, s=18)
+        ax.scatter(t, o, facecolors='none', edgecolors=PRIMARY_COLOR, s=20)
         x_vals = np.array([min(t), max(t)])
-        ax.plot(x_vals, slope * x_vals + intercept, color=[PRIMARY_COLOR, SECONDARY_COLOR, ACCENT_COLOR, DARK_COLOR][i], linewidth=2.0)
+        ax.plot(x_vals, slope * x_vals + intercept, color=[PRIMARY_COLOR, SECONDARY_COLOR, ACCENT_COLOR, DARK_COLOR][i], linewidth=2.1)
         ax.plot([min(t), max(t)], [min(t), max(t)], '--', color=NEUTRAL_COLOR, alpha=0.8)
-        ax.set_title(f'{title} | R={R:.4f}', fontweight='bold', fontsize=11)
-        ax.set_xlabel('Target Value', fontsize=11)
-        ax.set_ylabel('Output Value', fontsize=11)
+        ax.set_title(f'{title} | R={R:.4f}', fontweight='bold', fontsize=13)
+        ax.set_xlabel('Target Value', fontsize=13)
+        ax.set_ylabel('Output Value', fontsize=13)
         ax.grid(True, linestyle=':')
-    plt.tight_layout(pad=0.7)
+    plt.tight_layout(pad=0.9)
     save_figure(fig, "figure_08_regression_analysis.png")
 
 def plot_parameter_estimation(y_true, y_pred):
-    fig = plt.figure(figsize=(12.8, 5.6))
+    fig = plt.figure(figsize=(13.4, 6.0))
     plt.subplot(1, 2, 1)
-    plt.scatter(y_true[:, 2], y_pred[:, 2], alpha=0.6, color=PURPLE_COLOR, s=18)
-    plt.plot([0.15, 0.4], [0.15, 0.4], '--', color=NEUTRAL_COLOR, lw=1.8, label='Ground Truth')
+    plt.scatter(y_true[:, 2], y_pred[:, 2], alpha=0.6, color=PURPLE_COLOR, s=20)
+    plt.plot([0.15, 0.4], [0.15, 0.4], '--', color=NEUTRAL_COLOR, lw=1.9, label='Ground Truth')
     rmse_r = np.sqrt(mean_squared_error(y_true[:,2], y_pred[:,2])) * 100
-    plt.title(f'Radius Accuracy (RMSE: {rmse_r:.2f} cm)', fontweight='bold', fontsize=12)
-    plt.xlabel('True radius (m)', fontsize=11)
-    plt.ylabel('Predicted radius (m)', fontsize=11)
+    plt.title(f'Radius Accuracy (RMSE: {rmse_r:.2f} cm)', fontweight='bold', fontsize=14)
+    plt.xlabel('True radius (m)', fontsize=13)
+    plt.ylabel('Predicted radius (m)', fontsize=13)
     plt.grid(True)
 
     plt.subplot(1, 2, 2)
-    plt.scatter(y_true[:, 3], y_pred[:, 3], alpha=0.6, color=WARM_COLOR, s=18)
-    plt.plot([1.2, 1.9], [1.2, 1.9], '--', color=NEUTRAL_COLOR, lw=1.8, label='Ground Truth')
+    plt.scatter(y_true[:, 3], y_pred[:, 3], alpha=0.6, color=WARM_COLOR, s=20)
+    plt.plot([1.2, 1.9], [1.2, 1.9], '--', color=NEUTRAL_COLOR, lw=1.9, label='Ground Truth')
     rmse_h = np.sqrt(mean_squared_error(y_true[:,3], y_pred[:,3])) * 100
-    plt.title(f'Height Accuracy (RMSE: {rmse_h:.2f} cm)', fontweight='bold', fontsize=12)
-    plt.xlabel('True height (m)', fontsize=11)
-    plt.ylabel('Predicted height (m)', fontsize=11)
+    plt.title(f'Height Accuracy (RMSE: {rmse_h:.2f} cm)', fontweight='bold', fontsize=14)
+    plt.xlabel('True height (m)', fontsize=13)
+    plt.ylabel('Predicted height (m)', fontsize=13)
     plt.grid(True)
-    plt.tight_layout(pad=0.7)
+    plt.tight_layout(pad=0.9)
     save_figure(fig, "figure_09_parameter_estimation.png")
 
 def plot_cdf_error(y_true, y_pred):
@@ -934,16 +934,16 @@ def plot_cdf_error(y_true, y_pred):
     errors_sorted = np.sort(errors)
     p = 1. * np.arange(len(errors)) / (len(errors) - 1)
     p90 = np.percentile(errors, 90)
-    fig = plt.figure(figsize=(9.2, 6.6))
+    fig = plt.figure(figsize=(9.8, 7.0))
     ax = fig.add_subplot(1, 1, 1)
-    ax.plot(errors_sorted * 100, p, linewidth=2.0, color=PRIMARY_COLOR)
+    ax.plot(errors_sorted * 100, p, linewidth=2.2, color=PRIMARY_COLOR)
     ax.axvline(x=p90*100, color=ACCENT_COLOR, linestyle='--', label=f'90% Confidence < {p90*100:.1f} cm')
-    ax.set_title('Cumulative Distribution Function (CDF) of Error', fontweight='bold', fontsize=12)
-    ax.set_xlabel('Positioning Error (cm)', fontsize=11)
-    ax.set_ylabel('Probability', fontsize=11)
+    ax.set_title('Cumulative Distribution Function (CDF) of Error', fontweight='bold', fontsize=14)
+    ax.set_xlabel('Positioning Error (cm)', fontsize=13)
+    ax.set_ylabel('Probability', fontsize=13)
     ax.grid(True)
     add_axis_legend_outside(ax, location="lower right")
-    plt.tight_layout(pad=0.6)
+    plt.tight_layout(pad=0.8)
     save_figure(fig, "figure_10_cdf_error.png")
 
 
@@ -955,19 +955,19 @@ def plot_error_histograms(y_true, y_pred):
     labels = ['X Error (cm)', 'Y Error (cm)', 'Radius Error (cm)', 'Height Error (cm)']
     colors = [PRIMARY_COLOR, HIGHLIGHT_COLOR, PURPLE_COLOR, WARM_COLOR]
 
-    fig, axs = plt.subplots(2, 2, figsize=(12.6, 8.8))
+    fig, axs = plt.subplots(2, 2, figsize=(13.0, 9.2))
     for ax, idx, label, color in zip(axs.ravel(), range(4), labels, colors):
         err = residuals_cm[:, idx]
         rmse = np.sqrt(np.mean(err ** 2))
         bias = np.mean(err)
         ax.hist(err, bins=30, color=color, alpha=0.82, edgecolor=DARK_COLOR)
-        ax.axvline(0, color=DARK_COLOR, linestyle='--', linewidth=1.3)
-        ax.set_title(f'{label} | RMSE={rmse:.2f}, Bias={bias:.2f}', fontweight='bold', fontsize=11)
-        ax.set_xlabel(label, fontsize=11)
-        ax.set_ylabel('Frequency', fontsize=11)
+        ax.axvline(0, color=DARK_COLOR, linestyle='--', linewidth=1.4)
+        ax.set_title(f'{label} | RMSE={rmse:.2f}, Bias={bias:.2f}', fontweight='bold', fontsize=13)
+        ax.set_xlabel(label, fontsize=13)
+        ax.set_ylabel('Frequency', fontsize=13)
         ax.grid(True, linestyle=':', alpha=0.5)
 
-    plt.tight_layout(pad=0.7)
+    plt.tight_layout(pad=0.9)
     save_figure(fig, "figure_11_error_histograms.png")
 
 
@@ -1003,40 +1003,40 @@ def plot_prediction_floor_map(sim, model, scaler_X, scaler_y, y_reference=None, 
         seed=23,
     )
 
-    fig, ax = plt.subplots(figsize=(8.8, 7.8))
+    fig, ax = plt.subplots(figsize=(9.4, 8.6))
     draw_pd_layout_2d(ax, sim, color=LIGHT_NEUTRAL, alpha=0.16, size=8, label='PD receiver grid')
-    scatter_led_positions(ax, LED_POSITIONS[:, :2], size=125, label='LED positions', zorder=4)
+    scatter_led_positions(ax, LED_POSITIONS[:, :2], size=135, label='LED positions', zorder=4)
     ax.scatter(
         gt_centers[:, 0],
         gt_centers[:, 1],
-        s=26,
+        s=28,
         facecolors='none',
         edgecolors=SECONDARY_COLOR,
-        linewidths=1.1,
+        linewidths=1.2,
         alpha=0.90,
         label='Ground truth centers'
     )
     ax.scatter(
         pred_xy[:, 0],
         pred_xy[:, 1],
-        s=30,
+        s=32,
         marker='x',
         color=PRIMARY_COLOR,
-        linewidths=1.1,
+        linewidths=1.2,
         alpha=0.85,
         label='Predicted centers'
     )
 
     handles, labels = ax.get_legend_handles_labels()
-    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.94)
-    plt.suptitle('Ordered Top-View Ground Truth vs Prediction', fontweight='bold', y=0.98, fontsize=12)
-    ax.set_xlabel('X position (m)', fontsize=11)
-    ax.set_ylabel('Y position (m)', fontsize=11)
+    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.95)
+    plt.suptitle('Ordered Top-View Ground Truth vs Prediction', fontweight='bold', y=0.985, fontsize=14)
+    ax.set_xlabel('X position (m)', fontsize=13)
+    ax.set_ylabel('Y position (m)', fontsize=13)
     ax.set_xlim(0, sim.L)
     ax.set_ylim(0, sim.W)
     ax.set_aspect('equal', adjustable='box')
     ax.grid(True, linestyle=':', alpha=0.5)
-    plt.tight_layout(rect=[0, 0, 1, 0.90], pad=0.6)
+    plt.tight_layout(rect=[0, 0, 1, 0.90], pad=0.8)
     save_figure(fig, "figure_12_top_view_gt_vs_pred.png")
 
 
@@ -1049,7 +1049,7 @@ def plot_spatial_error_heatmap(sim, y_true, y_pred):
         return
 
     errors_cm = np.sqrt((y_true[:, 0] - y_pred[:, 0])**2 + (y_true[:, 1] - y_pred[:, 1])**2) * 100
-    fig, ax = plt.subplots(figsize=(8.8, 6.8))
+    fig, ax = plt.subplots(figsize=(9.4, 7.6))
     heatmap = ax.hexbin(
         y_true[:, 0],
         y_true[:, 1],
@@ -1061,20 +1061,20 @@ def plot_spatial_error_heatmap(sim, y_true, y_pred):
         mincnt=1
     )
     draw_pd_layout_2d(ax, sim, color=LIGHT_NEUTRAL, alpha=0.18, size=8, label='PD receiver grid')
-    scatter_led_positions(ax, LED_POSITIONS[:, :2], size=125, facecolor=HIGHLIGHT_COLOR, label='LED positions', zorder=4)
+    scatter_led_positions(ax, LED_POSITIONS[:, :2], size=135, facecolor=HIGHLIGHT_COLOR, label='LED positions', zorder=4)
     cbar = fig.colorbar(heatmap, ax=ax, label='Mean localization error (cm)', pad=0.03)
-    cbar.ax.tick_params(labelsize=9)
-    cbar.set_label('Mean localization error (cm)', size=10)
+    cbar.ax.tick_params(labelsize=11)
+    cbar.set_label('Mean localization error (cm)', size=12)
     handles, labels = ax.get_legend_handles_labels()
-    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.94)
-    plt.suptitle('Spatial Localization Error Heatmap', fontweight='bold', y=0.98, fontsize=12)
-    ax.set_xlabel('X position (m)', fontsize=11)
-    ax.set_ylabel('Y position (m)', fontsize=11)
+    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.95)
+    plt.suptitle('Spatial Localization Error Heatmap', fontweight='bold', y=0.985, fontsize=14)
+    ax.set_xlabel('X position (m)', fontsize=13)
+    ax.set_ylabel('Y position (m)', fontsize=13)
     ax.set_xlim(0, sim.L)
     ax.set_ylim(0, sim.W)
     ax.set_aspect('equal', adjustable='box')
     ax.grid(True, linestyle=':', alpha=0.4)
-    plt.tight_layout(rect=[0, 0, 1, 0.90], pad=0.6)
+    plt.tight_layout(rect=[0, 0, 1, 0.90], pad=0.8)
     save_figure(fig, "figure_13_spatial_error_heatmap.png")
 
 
@@ -1132,17 +1132,17 @@ def visualize_trajectory(sim, model, scaler_X, scaler_y):
     print("\n--- Visualizing Trajectory Tracking Across Multiple Path Types... ---")
     trajectories = build_trajectory_suite(sim)
 
-    fig, axs = plt.subplots(2, 2, figsize=(10.8, 9.2))
+    fig, axs = plt.subplots(2, 2, figsize=(11.4, 9.8))
     axs = axs.ravel()
     panel_labels = ['(a)', '(b)', '(c)', '(d)']
 
     for idx, (ax, (name, path_x, path_y)) in enumerate(zip(axs, trajectories)):
         pred_path = predict_xy_path(sim, model, scaler_X, scaler_y, path_x, path_y, seed=11 + idx)
-        ax.plot(path_x, path_y, '-o', color=SECONDARY_COLOR, linewidth=1.8, markersize=4.0, label='Ground Truth')
-        ax.plot(pred_path[:, 0], pred_path[:, 1], '-o', color=PRIMARY_COLOR, linewidth=1.8, markersize=4.0, label='Predicted')
-        ax.set_title(f'{panel_labels[idx]} {name}', fontweight='bold', fontsize=11)
-        ax.set_xlabel('X position (m)' if idx >= 2 else '', fontsize=11)
-        ax.set_ylabel('Y position (m)' if idx % 2 == 0 else '', fontsize=11)
+        ax.plot(path_x, path_y, '-o', color=SECONDARY_COLOR, linewidth=1.9, markersize=4.3, label='Ground Truth')
+        ax.plot(pred_path[:, 0], pred_path[:, 1], '-o', color=PRIMARY_COLOR, linewidth=1.9, markersize=4.3, label='Predicted')
+        ax.set_title(f'{panel_labels[idx]} {name}', fontweight='bold', fontsize=13)
+        ax.set_xlabel('X position (m)' if idx >= 2 else '', fontsize=13)
+        ax.set_ylabel('Y position (m)' if idx % 2 == 0 else '', fontsize=13)
         ax.set_xlim(0, sim.L)
         ax.set_ylim(0, sim.W)
         ax.set_xticks(np.arange(0, sim.L + 0.1, 1))
@@ -1151,9 +1151,9 @@ def visualize_trajectory(sim, model, scaler_X, scaler_y):
         ax.grid(True, linestyle=':', alpha=0.45)
 
     handles, labels = axs[0].get_legend_handles_labels()
-    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.97)
-    plt.suptitle('Trajectory Tracking Across Path Types', fontweight='bold', y=0.995, fontsize=12)
-    fig.subplots_adjust(left=0.08, right=0.985, bottom=0.08, top=0.90, wspace=0.18, hspace=0.24)
+    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.975)
+    plt.suptitle('Trajectory Tracking Across Path Types', fontweight='bold', y=0.995, fontsize=14)
+    fig.subplots_adjust(left=0.08, right=0.985, bottom=0.08, top=0.89, wspace=0.18, hspace=0.25)
     save_figure(fig, "figure_14_trajectory_tracking.png")
 
 def stress_test(sim, model, scaler_X, scaler_y):
@@ -1174,13 +1174,13 @@ def stress_test(sim, model, scaler_X, scaler_y):
             errs.append(np.sqrt((obj[0]-pred[0,0])**2 + (obj[1]-pred[0,1])**2))
         rmses.append(np.mean(errs)*100)
 
-    fig = plt.figure(figsize=(8.2, 4.8))
-    plt.plot([str(x) for x in noises], rmses, '-o', color=ACCENT_COLOR, linewidth=2.0, markersize=5)
-    plt.title('Robustness Analysis: RMSE vs Noise Level', fontweight='bold', fontsize=12)
-    plt.xlabel('Noise Standard Deviation (W)', fontsize=11)
-    plt.ylabel('Mean RMSE (cm)', fontsize=11)
+    fig = plt.figure(figsize=(8.8, 5.2))
+    plt.plot([str(x) for x in noises], rmses, '-o', color=ACCENT_COLOR, linewidth=2.2, markersize=5.5)
+    plt.title('Robustness Analysis: RMSE vs Noise Level', fontweight='bold', fontsize=14)
+    plt.xlabel('Noise Standard Deviation (W)', fontsize=13)
+    plt.ylabel('Mean RMSE (cm)', fontsize=13)
     plt.grid(True)
-    plt.tight_layout(pad=0.6)
+    plt.tight_layout(pad=0.8)
     save_figure(fig, "figure_15_robustness_noise_rmse.png")
 
 # ==============================================================================
