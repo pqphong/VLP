@@ -12,15 +12,12 @@ def simulate_vlp_figure_2():
         "font.family": "serif",
         "font.serif": ["Times New Roman", "STIXGeneral", "DejaVu Serif"],
         "mathtext.fontset": "stix",
-        "font.size": 9,
-        "axes.titlesize": 9,
-        "axes.labelsize": 9,
-        "xtick.labelsize": 8,
-        "ytick.labelsize": 8,
-        "legend.fontsize": 8,
-        "axes.linewidth": 0.8,
-        "xtick.major.width": 0.8,
-        "ytick.major.width": 0.8,
+        "font.size": 12,
+        "axes.titlesize": 14,
+        "axes.labelsize": 12,
+        "xtick.labelsize": 11,
+        "ytick.labelsize": 11,
+        "legend.fontsize": 11,
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
         "svg.fonttype": "none",
@@ -118,7 +115,7 @@ def simulate_vlp_figure_2():
     P_total_dBm = 10 * np.log10((P_total_watts + 1e-20) * 1000)
     
     # --- 6. VISUALIZATION ---
-    fig = plt.figure(figsize=(10.2, 6.6))
+    fig = plt.figure(figsize=(12, 8))
     ax = fig.add_subplot(111, projection='3d')
     
     # Surface Plot generation
@@ -126,12 +123,12 @@ def simulate_vlp_figure_2():
                            edgecolor='none', antialiased=True, alpha=0.9)
     
     # Axis labels and plot title
-    ax.set_title('Simulation Received Power Profile', fontsize=9, fontweight='bold', pad=6)
-    ax.set_xlabel('Width (m)', fontsize=9, labelpad=4)
-    ax.set_ylabel('Length (m)', fontsize=9, labelpad=4)
-    ax.set_zlabel('Received Power (dBm)', fontsize=9, labelpad=4)
-    ax.tick_params(axis='both', which='major', labelsize=8, pad=2)
-    ax.tick_params(axis='z', which='major', labelsize=8, pad=2)
+    ax.set_title('Simulation Received Power Profile', fontsize=14, fontweight='bold')
+    ax.set_xlabel('Width (m)', fontsize=12)
+    ax.set_ylabel('Length (m)', fontsize=12)
+    ax.set_zlabel('Received Power (dBm)', fontsize=12)
+    ax.tick_params(axis='both', which='major', labelsize=11)
+    ax.tick_params(axis='z', which='major', labelsize=11)
     
     # Axis limits aligned with the reference paper
     ax.set_xlim(-2.5, 2.5)
@@ -143,14 +140,14 @@ def simulate_vlp_figure_2():
     ax.set_zlim(z_min, z_max + 2)
     
     # Colorbar configuration
-    cbar = fig.colorbar(surf, ax=ax, shrink=0.64, aspect=14, pad=0.08)
-    cbar.set_label('Power (dBm)', size=9)
-    cbar.ax.tick_params(labelsize=8)
+    cbar = fig.colorbar(surf, ax=ax, shrink=0.6, aspect=12)
+    cbar.set_label('Power (dBm)', size=11)
+    cbar.ax.tick_params(labelsize=10)
     
     # Viewpoint adjustment (Elevation, Azimuth)
     ax.view_init(elev=35, azim=45)
     
-    plt.tight_layout(pad=0.4)
+    plt.tight_layout()
     plt.show()
 
 if __name__ == "__main__":
