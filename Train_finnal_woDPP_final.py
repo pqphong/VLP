@@ -919,15 +919,24 @@ def visualize_generated_data_3d(sim, X, y, max_points=3000, sample_index=0):
 
 def plot_learning_curve(model, train_rmse, val_rmse, test_rmse):
     """Visualizes training convergence and RMSE across data splits."""
-    fig = plt.figure(figsize=(16.4, 7.2))
+    caption_text_size = 10
+    caption_tick_size = 8
+    caption_title_size = 10
+
+    fig = plt.figure(figsize=(5.8, 2.5))
     ax_loss = plt.subplot(1, 2, 1)
-    ax_loss.plot(model.loss_curve_, label='Training Loss', color=PRIMARY_COLOR, linewidth=2.3)
+    ax_loss.plot(model.loss_curve_, label='Training Loss', color=PRIMARY_COLOR, linewidth=1.2)
     ax_loss.set_title('Training Loss Convergence (Optimized)', fontweight='bold')
     ax_loss.set_xlabel('Epochs')
     ax_loss.set_ylabel('Loss (MSE)')
-    apply_axis_text_spacing(ax_loss, label_size=16, tick_size=14, title_size=19)
+    apply_axis_text_spacing(
+        ax_loss,
+        label_size=caption_text_size,
+        tick_size=caption_tick_size,
+        title_size=caption_title_size,
+    )
     ax_loss.grid(True, linestyle='--', alpha=0.7)
-    add_axis_legend_outside(ax_loss, location="upper right")
+    ax_loss.legend(loc='upper right', fontsize=8, frameon=True, borderaxespad=0.2)
 
     ax_rmse = plt.subplot(1, 2, 2)
     sets = ['Train (80%)', 'Valid (10%)', 'Test (10%)']
@@ -935,10 +944,15 @@ def plot_learning_curve(model, train_rmse, val_rmse, test_rmse):
     bars = ax_rmse.bar(sets, values, color=[SECONDARY_COLOR, WARM_COLOR, ACCENT_COLOR], alpha=0.9)
     ax_rmse.set_title('Performance Evaluation: RMSE Comparison', fontweight='bold')
     ax_rmse.set_ylabel('RMSE (cm)')
-    apply_axis_text_spacing(ax_rmse, label_size=16, tick_size=14, title_size=19)
+    apply_axis_text_spacing(
+        ax_rmse,
+        label_size=caption_text_size,
+        tick_size=caption_tick_size,
+        title_size=caption_title_size,
+    )
     ax_rmse.set_ylim(0, max(values) * 1.14 + 0.15)
-    ax_rmse.bar_label(bars, fmt='%.2f', padding=4, fontweight='bold', fontsize=15)
-    plt.tight_layout(pad=1.2)
+    ax_rmse.bar_label(bars, fmt='%.2f', padding=2, fontweight='bold', fontsize=8)
+    plt.tight_layout(pad=0.6)
     save_figure(fig, "figure_07_learning_curve_rmse.png")
 
 def plot_matlab_style_regression(y_train_true, y_train_pred, y_val_true, y_val_pred, y_test_true, y_test_pred):
@@ -970,27 +984,41 @@ def plot_matlab_style_regression(y_train_true, y_train_pred, y_val_true, y_val_p
     save_figure(fig, "figure_08_regression_analysis.png")
 
 def plot_parameter_estimation(y_true, y_pred):
-    fig = plt.figure(figsize=(14.8, 7.2))
+    caption_text_size = 10
+    caption_tick_size = 8
+    caption_title_size = 10
+
+    fig = plt.figure(figsize=(5.8, 2.6))
     ax_radius = plt.subplot(1, 2, 1)
-    ax_radius.scatter(y_true[:, 2], y_pred[:, 2], alpha=0.6, color=PURPLE_COLOR, s=22)
-    ax_radius.plot([0.15, 0.4], [0.15, 0.4], '--', color=NEUTRAL_COLOR, lw=2.0, label='Ground Truth')
+    ax_radius.scatter(y_true[:, 2], y_pred[:, 2], alpha=0.6, color=PURPLE_COLOR, s=5)
+    ax_radius.plot([0.15, 0.4], [0.15, 0.4], '--', color=NEUTRAL_COLOR, lw=1.0, label='Ground Truth')
     rmse_r = np.sqrt(mean_squared_error(y_true[:,2], y_pred[:,2])) * 100
     ax_radius.set_title(f'Radius Accuracy (RMSE: {rmse_r:.2f} cm)', fontweight='bold')
     ax_radius.set_xlabel('True radius (m)')
     ax_radius.set_ylabel('Predicted radius (m)')
-    apply_axis_text_spacing(ax_radius, label_size=16, tick_size=14, title_size=19)
+    apply_axis_text_spacing(
+        ax_radius,
+        label_size=caption_text_size,
+        tick_size=caption_tick_size,
+        title_size=caption_title_size,
+    )
     ax_radius.grid(True)
 
     ax_height = plt.subplot(1, 2, 2)
-    ax_height.scatter(y_true[:, 3], y_pred[:, 3], alpha=0.6, color=WARM_COLOR, s=22)
-    ax_height.plot([1.2, 1.9], [1.2, 1.9], '--', color=NEUTRAL_COLOR, lw=2.0, label='Ground Truth')
+    ax_height.scatter(y_true[:, 3], y_pred[:, 3], alpha=0.6, color=WARM_COLOR, s=5)
+    ax_height.plot([1.2, 1.9], [1.2, 1.9], '--', color=NEUTRAL_COLOR, lw=1.0, label='Ground Truth')
     rmse_h = np.sqrt(mean_squared_error(y_true[:,3], y_pred[:,3])) * 100
     ax_height.set_title(f'Height Accuracy (RMSE: {rmse_h:.2f} cm)', fontweight='bold')
     ax_height.set_xlabel('True height (m)')
     ax_height.set_ylabel('Predicted height (m)')
-    apply_axis_text_spacing(ax_height, label_size=16, tick_size=14, title_size=19)
+    apply_axis_text_spacing(
+        ax_height,
+        label_size=caption_text_size,
+        tick_size=caption_tick_size,
+        title_size=caption_title_size,
+    )
     ax_height.grid(True)
-    plt.tight_layout(pad=1.2)
+    plt.tight_layout(pad=0.6)
     save_figure(fig, "figure_09_parameter_estimation.png")
 
 def plot_cdf_error(y_true, y_pred):
@@ -1016,24 +1044,33 @@ def plot_error_histograms(y_true, y_pred):
     """Shows residual distributions for all predicted parameters."""
     print("\n--- Generating Error Histograms... ---")
 
+    caption_text_size = 10
+    caption_tick_size = 8
+    caption_title_size = 9
+
     residuals_cm = (y_pred - y_true) * 100.0
     labels = ['X Error (cm)', 'Y Error (cm)', 'Radius Error (cm)', 'Height Error (cm)']
     colors = [PRIMARY_COLOR, HIGHLIGHT_COLOR, PURPLE_COLOR, WARM_COLOR]
 
-    fig, axs = plt.subplots(2, 2, figsize=(14.8, 10.6))
+    fig, axs = plt.subplots(2, 2, figsize=(5.8, 4.25))
     for ax, idx, label, color in zip(axs.ravel(), range(4), labels, colors):
         err = residuals_cm[:, idx]
         rmse = np.sqrt(np.mean(err ** 2))
         bias = np.mean(err)
         ax.hist(err, bins=30, color=color, alpha=0.82, edgecolor=DARK_COLOR)
-        ax.axvline(0, color=DARK_COLOR, linestyle='--', linewidth=1.5)
+        ax.axvline(0, color=DARK_COLOR, linestyle='--', linewidth=0.9)
         ax.set_title(f'{label} | RMSE={rmse:.2f}, Bias={bias:.2f}', fontweight='bold')
         ax.set_xlabel(label)
         ax.set_ylabel('Frequency')
-        apply_axis_text_spacing(ax, label_size=16, tick_size=14, title_size=18)
+        apply_axis_text_spacing(
+            ax,
+            label_size=caption_text_size,
+            tick_size=caption_tick_size,
+            title_size=caption_title_size,
+        )
         ax.grid(True, linestyle=':', alpha=0.5)
 
-    plt.tight_layout(pad=1.2)
+    plt.tight_layout(pad=0.7)
     save_figure(fig, "figure_11_error_histograms.png")
 
 
@@ -1199,8 +1236,21 @@ def visualize_trajectory(sim, model, scaler_X, scaler_y):
     print("\n--- Visualizing Trajectory Tracking Across Multiple Path Types... ---")
     trajectories = build_trajectory_suite(sim)
 
-    fig, axs = plt.subplots(2, 2, figsize=(13.0, 11.4))
-    axs = axs.ravel()
+    fig_w, fig_h = 9.0, 8.0
+    fig = plt.figure(figsize=(fig_w, fig_h))
+    panel_side = 2.75
+    panel_w = panel_side / fig_w
+    panel_h = panel_side / fig_h
+    x_left = 0.095
+    x_right = 0.455
+    y_bottom = 0.075
+    y_top = 0.465
+    axs = [
+        fig.add_axes([x_left, y_top, panel_w, panel_h]),
+        fig.add_axes([x_right, y_top, panel_w, panel_h]),
+        fig.add_axes([x_left, y_bottom, panel_w, panel_h]),
+        fig.add_axes([x_right, y_bottom, panel_w, panel_h]),
+    ]
     panel_labels = ['(a)', '(b)', '(c)', '(d)']
 
     for idx, (ax, (name, path_x, path_y)) in enumerate(zip(axs, trajectories)):
@@ -1210,18 +1260,22 @@ def visualize_trajectory(sim, model, scaler_X, scaler_y):
         ax.set_title(f'{panel_labels[idx]} {name}', fontweight='bold')
         ax.set_xlabel('X position (m)' if idx >= 2 else '')
         ax.set_ylabel('Y position (m)' if idx % 2 == 0 else '')
-        apply_axis_text_spacing(ax, label_size=16, tick_size=14, title_size=18)
+        apply_axis_text_spacing(ax, label_size=16, tick_size=14, title_size=17)
+        ax.set_title(ax.get_title(), fontweight='bold', fontsize=17, pad=4)
         ax.set_xlim(0, sim.L)
         ax.set_ylim(0, sim.W)
         ax.set_xticks(np.arange(0, sim.L + 0.1, 1))
         ax.set_yticks(np.arange(0, sim.W + 0.1, 1))
+        if idx < 2:
+            ax.tick_params(labelbottom=False)
+        if idx % 2 == 1:
+            ax.tick_params(labelleft=False)
         ax.set_aspect('equal', adjustable='box')
         ax.grid(True, linestyle=':', alpha=0.45)
 
     handles, labels = axs[0].get_legend_handles_labels()
-    add_figure_legend(fig, handles, labels, location="top", ncol=2, y=0.975, fontsize=16)
-    plt.suptitle('Trajectory Tracking Across Path Types', fontweight='bold', y=0.995, fontsize=19)
-    fig.subplots_adjust(left=0.08, right=0.985, bottom=0.105, top=0.86, wspace=0.20, hspace=0.34)
+    add_figure_legend(fig, handles, labels, location="top", ncol=2, x=0.45, y=0.910, fontsize=15)
+    plt.suptitle('Trajectory Tracking Across Path Types', fontweight='bold', x=0.47, y=0.985, fontsize=19)
     save_figure(fig, "figure_14_trajectory_tracking.png")
 
 def stress_test(sim, model, scaler_X, scaler_y):
