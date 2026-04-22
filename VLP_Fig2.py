@@ -1,8 +1,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 from mpl_toolkits.mplot3d import Axes3D
 
-def simulate_vlp_figure_2():
+FIGURE_OUTPUT_DIR = Path("conference_figures")
+FIGURE_FORMATS = ("png", "pdf", "svg")
+FIGURE_DPI = 600
+
+
+def save_figure(fig, stem):
+    for extension in FIGURE_FORMATS:
+        output_dir = FIGURE_OUTPUT_DIR / extension
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = output_dir / f"{stem}.{extension}"
+        fig.savefig(output_path, dpi=FIGURE_DPI, bbox_inches="tight")
+        print(f"[Figure Saved] {output_path}")
+
+
+def simulate_vlp_figure_2(show=True, save=True):
     """
     Simulates the optical power distribution for a VLP system.
     Reproduces the geometry and parameters described in Figure 2 of the reference paper.
@@ -12,12 +27,12 @@ def simulate_vlp_figure_2():
         "font.family": "serif",
         "font.serif": ["Times New Roman", "STIXGeneral", "DejaVu Serif"],
         "mathtext.fontset": "stix",
-        "font.size": 12,
-        "axes.titlesize": 14,
-        "axes.labelsize": 12,
-        "xtick.labelsize": 11,
-        "ytick.labelsize": 11,
-        "legend.fontsize": 11,
+        "font.size": 10,
+        "axes.titlesize": 10,
+        "axes.labelsize": 10,
+        "xtick.labelsize": 8,
+        "ytick.labelsize": 8,
+        "legend.fontsize": 10,
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
         "svg.fonttype": "none",
@@ -115,7 +130,10 @@ def simulate_vlp_figure_2():
     P_total_dBm = 10 * np.log10((P_total_watts + 1e-20) * 1000)
     
     # --- 6. VISUALIZATION ---
-    fig = plt.figure(figsize=(12, 8))
+    caption_text_size = 10
+    caption_tick_size = 8
+
+    fig = plt.figure(figsize=(6.2, 4.2))
     ax = fig.add_subplot(111, projection='3d')
     
     # Surface Plot generation
@@ -123,12 +141,12 @@ def simulate_vlp_figure_2():
                            edgecolor='none', antialiased=True, alpha=0.9)
     
     # Axis labels and plot title
-    ax.set_title('Simulation Received Power Profile', fontsize=14, fontweight='bold')
-    ax.set_xlabel('Width (m)', fontsize=12)
-    ax.set_ylabel('Length (m)', fontsize=12)
-    ax.set_zlabel('Received Power (dBm)', fontsize=12)
-    ax.tick_params(axis='both', which='major', labelsize=11)
-    ax.tick_params(axis='z', which='major', labelsize=11)
+    ax.set_title('Simulation Received Power Profile', fontsize=caption_text_size, fontweight='bold', pad=4)
+    ax.set_xlabel('Width (m)', fontsize=caption_text_size, labelpad=5)
+    ax.set_ylabel('Length (m)', fontsize=caption_text_size, labelpad=5)
+    ax.set_zlabel('Received Power (dBm)', fontsize=caption_text_size, labelpad=5)
+    ax.tick_params(axis='both', which='major', labelsize=caption_tick_size, pad=2)
+    ax.tick_params(axis='z', which='major', labelsize=caption_tick_size, pad=2)
     
     # Axis limits aligned with the reference paper
     ax.set_xlim(-2.5, 2.5)
@@ -140,15 +158,19 @@ def simulate_vlp_figure_2():
     ax.set_zlim(z_min, z_max + 2)
     
     # Colorbar configuration
-    cbar = fig.colorbar(surf, ax=ax, shrink=0.6, aspect=12)
-    cbar.set_label('Power (dBm)', size=11)
-    cbar.ax.tick_params(labelsize=10)
+    cbar = fig.colorbar(surf, ax=ax, shrink=0.62, aspect=12, pad=0.06)
+    cbar.set_label('Power (dBm)', size=caption_text_size, labelpad=4)
+    cbar.ax.tick_params(labelsize=caption_tick_size, pad=2)
     
     # Viewpoint adjustment (Elevation, Azimuth)
     ax.view_init(elev=35, azim=45)
     
     plt.tight_layout()
-    plt.show()
+    if save:
+        save_figure(fig, "vlp_fig2_received_power_profile")
+    if show:
+        plt.show()
+    return fig
 
 if __name__ == "__main__":
     simulate_vlp_figure_2()

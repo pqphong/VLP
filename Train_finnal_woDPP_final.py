@@ -380,26 +380,35 @@ def visualize_sensor_layout(sim):
     """Visualizes the spatial layout of the PD receiver grid and LEDs."""
     print("\n--- Visualizing PD and LED Layout... ---")
 
-    fig = plt.figure(figsize=(13.8, 6.4))
+    caption_text_size = 10
+    caption_tick_size = 8
+    caption_title_size = 10
+
+    fig = plt.figure(figsize=(6.2, 3.25))
     grid = fig.add_gridspec(
         1,
         2,
-        width_ratios=[1.0, 1.03],
-        left=0.065,
-        right=0.975,
-        bottom=0.17,
+        width_ratios=[1.0, 1.0],
+        left=0.085,
+        right=0.985,
+        bottom=0.18,
         top=0.78,
         wspace=0.18,
     )
     ax_2d = fig.add_subplot(grid[0, 0])
     ax_3d = fig.add_subplot(grid[0, 1], projection='3d')
 
-    draw_pd_layout_2d(ax_2d, sim, color=NEUTRAL_COLOR, alpha=0.55, size=15, label='PD receiver grid')
-    scatter_led_positions(ax_2d, LED_POSITIONS[:, :2], size=160, label='LED positions', zorder=4)
+    draw_pd_layout_2d(ax_2d, sim, color=NEUTRAL_COLOR, alpha=0.55, size=5, label='PD receiver grid')
+    scatter_led_positions(ax_2d, LED_POSITIONS[:, :2], size=40, label='LED positions', zorder=4)
     ax_2d.set_title('2D Sensor Layout', fontweight='bold')
     ax_2d.set_xlabel('X position (m)')
     ax_2d.set_ylabel('Y position (m)')
-    apply_axis_text_spacing(ax_2d, label_size=17, tick_size=15, title_size=19)
+    apply_axis_text_spacing(
+        ax_2d,
+        label_size=caption_text_size,
+        tick_size=caption_tick_size,
+        title_size=caption_title_size,
+    )
     ax_2d.set_xlim(0, sim.L)
     ax_2d.set_ylim(0, sim.W)
     ax_2d.set_aspect('equal', adjustable='box')
@@ -407,13 +416,19 @@ def visualize_sensor_layout(sim):
     ax_2d.grid(True, linestyle=':', alpha=0.5)
 
     draw_room_outline_3d(ax_3d, sim)
-    draw_pd_layout_3d(ax_3d, sim, color=NEUTRAL_COLOR, alpha=0.35, size=11, label='PD receiver grid')
-    scatter_led_positions(ax_3d, LED_POSITIONS, size=165, label='LED positions', depthshade=False)
+    draw_pd_layout_3d(ax_3d, sim, color=NEUTRAL_COLOR, alpha=0.35, size=4, label='PD receiver grid')
+    scatter_led_positions(ax_3d, LED_POSITIONS, size=40, label='LED positions', depthshade=False)
     ax_3d.set_title('3D Sensor Layout', fontweight='bold')
     ax_3d.set_xlabel('X position (m)')
     ax_3d.set_ylabel('Y position (m)')
     ax_3d.set_zlabel('Z position (m)')
-    apply_axis_text_spacing(ax_3d, label_size=17, tick_size=15, title_size=19, is_3d=True)
+    apply_axis_text_spacing(
+        ax_3d,
+        label_size=caption_text_size,
+        tick_size=caption_tick_size,
+        title_size=caption_title_size,
+        is_3d=True,
+    )
     ax_3d.set_xlim(0, sim.L)
     ax_3d.set_ylim(0, sim.W)
     ax_3d.set_zlim(0, sim.H)
@@ -429,10 +444,10 @@ def visualize_sensor_layout(sim):
         bbox_to_anchor=(0.5, 0.985),
         ncol=2,
         frameon=True,
-        columnspacing=2.0,
-        handletextpad=0.8,
+        columnspacing=1.5,
+        handletextpad=0.6,
         borderaxespad=0.2,
-        fontsize=17,
+        fontsize=caption_text_size,
     )
     save_figure(fig, "figure_01_sensor_layout.png")
 
