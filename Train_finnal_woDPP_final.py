@@ -1022,21 +1022,30 @@ def plot_parameter_estimation(y_true, y_pred):
     save_figure(fig, "figure_09_parameter_estimation.png")
 
 def plot_cdf_error(y_true, y_pred):
+    caption_text_size = 10
+    caption_tick_size = 8
+    caption_title_size = 10
+
     errors = np.sqrt((y_true[:, 0] - y_pred[:, 0])**2 + (y_true[:, 1] - y_pred[:, 1])**2)
     errors_sorted = np.sort(errors)
     p = 1. * np.arange(len(errors)) / (len(errors) - 1)
     p90 = np.percentile(errors, 90)
-    fig = plt.figure(figsize=(10.4, 7.6))
+    fig = plt.figure(figsize=(3.8, 2.55))
     ax = fig.add_subplot(1, 1, 1)
-    ax.plot(errors_sorted * 100, p, linewidth=2.3, color=PRIMARY_COLOR)
-    ax.axvline(x=p90*100, color=ACCENT_COLOR, linestyle='--', label=f'90% Confidence < {p90*100:.1f} cm')
+    ax.plot(errors_sorted * 100, p, linewidth=1.2, color=PRIMARY_COLOR)
+    ax.axvline(x=p90*100, color=ACCENT_COLOR, linestyle='--', linewidth=1.0, label=f'90% Confidence < {p90*100:.1f} cm')
     ax.set_title('Cumulative Distribution Function (CDF) of Error', fontweight='bold')
     ax.set_xlabel('Positioning Error (cm)')
     ax.set_ylabel('Probability')
-    apply_axis_text_spacing(ax, label_size=16, tick_size=14, title_size=19)
+    apply_axis_text_spacing(
+        ax,
+        label_size=caption_text_size,
+        tick_size=caption_tick_size,
+        title_size=caption_title_size,
+    )
     ax.grid(True)
-    add_axis_legend_outside(ax, location="lower right")
-    plt.tight_layout(pad=1.1)
+    ax.legend(loc='lower right', fontsize=8, frameon=True, borderaxespad=0.2)
+    plt.tight_layout(pad=0.55)
     save_figure(fig, "figure_10_cdf_error.png")
 
 
@@ -1280,6 +1289,10 @@ def visualize_trajectory(sim, model, scaler_X, scaler_y):
 
 def stress_test(sim, model, scaler_X, scaler_y):
     print("\n--- Executing Robustness Analysis (Stress Test)... ---")
+    caption_text_size = 10
+    caption_tick_size = 8
+    caption_title_size = 10
+
     noises = [1e-9, 5e-9, 1e-8, 5e-8, 1e-7]
     rmses = []
     test_objs = [[np.random.uniform(1,4), np.random.uniform(1,4), 0.3, 1.5] for _ in range(50)]
@@ -1296,15 +1309,20 @@ def stress_test(sim, model, scaler_X, scaler_y):
             errs.append(np.sqrt((obj[0]-pred[0,0])**2 + (obj[1]-pred[0,1])**2))
         rmses.append(np.mean(errs)*100)
 
-    fig = plt.figure(figsize=(10.2, 6.4))
+    fig = plt.figure(figsize=(3.8, 2.55))
     ax = fig.add_subplot(1, 1, 1)
-    ax.plot([str(x) for x in noises], rmses, '-o', color=ACCENT_COLOR, linewidth=2.3, markersize=5.8)
+    ax.plot([str(x) for x in noises], rmses, '-o', color=ACCENT_COLOR, linewidth=1.2, markersize=3.0)
     ax.set_title('Robustness Analysis: RMSE vs Noise Level', fontweight='bold')
     ax.set_xlabel('Noise Standard Deviation (W)')
     ax.set_ylabel('Mean RMSE (cm)')
-    apply_axis_text_spacing(ax, label_size=16, tick_size=14, title_size=19)
+    apply_axis_text_spacing(
+        ax,
+        label_size=caption_text_size,
+        tick_size=caption_tick_size,
+        title_size=caption_title_size,
+    )
     ax.grid(True)
-    plt.tight_layout(pad=1.1)
+    plt.tight_layout(pad=0.55)
     save_figure(fig, "figure_15_robustness_noise_rmse.png")
 
 # ==============================================================================
