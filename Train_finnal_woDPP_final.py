@@ -225,10 +225,21 @@ def save_figure(fig, filename):
     """Saves figures in multiple publication-ready formats."""
     if not SAVE_FIGURES:
         return
+    extra_artists = list(fig.legends)
+    for ax in fig.axes:
+        extra_artists.extend([ax.xaxis.label, ax.yaxis.label, ax.title])
+        if hasattr(ax, "zaxis"):
+            extra_artists.append(ax.zaxis.label)
     stem, _ = os.path.splitext(filename)
     for extension in FIGURE_FORMATS:
         output_path = os.path.join(ensure_figure_dir(extension), f"{stem}.{extension}")
-        fig.savefig(output_path, dpi=FIGURE_DPI, bbox_inches='tight')
+        fig.savefig(
+            output_path,
+            dpi=FIGURE_DPI,
+            bbox_inches='tight',
+            bbox_extra_artists=extra_artists,
+            pad_inches=0.10,
+        )
         print(f"[Figure Saved] {output_path}")
 
 
@@ -390,10 +401,10 @@ def visualize_sensor_layout(sim):
         2,
         width_ratios=[1.0, 1.0],
         left=0.085,
-        right=0.985,
+        right=0.945,
         bottom=0.18,
         top=0.78,
-        wspace=0.18,
+        wspace=0.22,
     )
     ax_2d = fig.add_subplot(grid[0, 0])
     ax_3d = fig.add_subplot(grid[0, 1], projection='3d')
@@ -429,6 +440,7 @@ def visualize_sensor_layout(sim):
         title_size=caption_title_size,
         is_3d=True,
     )
+    ax_3d.zaxis.labelpad = 2
     ax_3d.set_xlim(0, sim.L)
     ax_3d.set_ylim(0, sim.W)
     ax_3d.set_zlim(0, sim.H)
