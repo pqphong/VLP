@@ -12,3 +12,9 @@ temp.ipynb
 .vscode/browse.vc.db-wal
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+.python-version
+main.py
+pyproject.toml
+Train_finnal_woDPP_final_.py
+uv.lock
+conference_figures/Figure_1.png
